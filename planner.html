@@ -6,30 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Backpackers Travel - Planner</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
     <header>
         <h1>Backpackers Travel</h1>
-        <nav>
-            <ul class="main-nav">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="destinations.html">Destinations</a></li>
-                <li><a href="tours.html">Tours</a></li>
-                <li><a href="planner.html">Planner</a></li>
-                <li><a href="tips.html">Travel Tips</a></li>
-            </ul>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="planner.html">Backpackers Travel</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="destinations.html">Destinations</a></li>
+                        <li class="nav-item"><a class="nav-link" href="tours.html">Tours</a></li>
+                        <li class="nav-item"><a class="nav-link" href="planner.html">Planner</a></li>
+                        <li class="nav-item"><a class="nav-link" href="tips.html">Travel Tips</a></li>
+                    </ul>
+                </div>
+            </div>
         </nav>
     </header>
     <!--Add/remove destinations and tours dynamically
     Notes section: save user notes
     Display a summary itinerary with dates and destinations.
     Drag-and-drop reorder for planning trips.-->
-    <main>
-        <section>
-            <h2>Travel Planner</h2>
-            <p>Plan your next adventure with our easy-to-use travel planner. Select your destinations, dates, and
-                preferences to create a personalized itinerary.</p>
+    <main class="container my-5">
+        <section class="mb-5">
+            <h1 class="mb-3">Travel Planner</h1>
+            <p class="lead">Plan your next adventure with our easy-to-use travel planner. Select your destinations,
+                dates, and preferences to create a personalized itinerary</p>
             <!-- Additional planner content can go here -->
         </section>
         <section>
@@ -51,10 +62,11 @@
             </textarea>
         </section>
     </main>
-    <footer>
-        <p>&copy; 2025 Backpackers Travel. All rights reserved.</p>
+    <footer class="bg-light text-center py-4 mt-auto">
+        <p class="mb-0">&copy; 2025 Backpackers Travel</p>
     </footer>
     <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
