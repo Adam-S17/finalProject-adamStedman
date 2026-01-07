@@ -15,7 +15,8 @@
             <div class="container">
                 <a class="navbar-brand" href="destinations.html">Backpackers Travel</a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                    aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -39,46 +40,72 @@
             <h1 class="mb-3">Destinations</h1>
             <p class="lead">Placeholder Text.</p>
         </section>
-        <section class="interactive-map">
+        <section class="mb-5 interactive-map">
             <h2>Weather Map</h2>
             <p>Click on a destination to view details.</p>
             <!-- Map container for Leaflet/Google Maps -->
-            <div>
+            <div class="border rounded p-5 text-center bg-light">
                 <!-- Map will render here via JS -->
-                <p>Map placeholder</p>
+                <p class="mb-0">Map placeholder</p>
             </div>
         </section>
-        <section> <!-- Filter Options -->
-            <label>Filter by region:</label>
-            <select>
-                <option>All</option>
-                <option>Asia</option>
-                <option>South America</option>
-                <option>Europe</option>
-            </select>
+        <section class="mb-5"> <!-- Filter Options -->
+            <h2>Filter by region:</h2>
+            <!--Connect filters using JS-->
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <select class="form-select">
+                        <option>All</option>
+                        <option>Asia</option>
+                        <option>South America</option>
+                        <option>Europe</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-select">
+                        <option>All Trips</option>
+                        <option>Placeholder</option>
+                        <option>placeholder</option>
+                        <option>placeholder</option>
+                    </select>
+                </div>
+            </div>
         </section>
-        <section> <!-- Featured Destination - might turn into cards -->
-            <h2>Popular Destinations</h2>
+        <section class="mb-5"> <!-- Featured Destination - might turn into cards -->
+            <h2 class="mb-4">Popular Destinations</h2>
             <p>Placeholder Text</p>
-            <div>
-                <article>
-                    <h3>Destination A</h3>
-                    <p>Placeholder Text</p>
-                </article>
-                <article>
-                    <h3>Destination B</h3>
-                    <p>Placeholder Text</p>
-                </article>
-                <article>
-                    <h3>Destination C</h3>
-                    <p>Placeholder Text</p>
-                </article>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Destination 1</h5>
+                            <p class="card-text">Brief description of Destination 1.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Destination 1</h5>
+                            <p class="card-text">Brief description of Destination 1.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Destination 1</h5>
+                            <p class="card-text">Brief description of Destination 1.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
-        <section class="user-destinations">
+        <section class="user-destinations mb-5">
             <h2>Backpacker Suggestions</h2>
             <p>Here are some destinations suggested by fellow backpackers:</p>
             <!-- Placeholder for user-generated suggestions - gonna allow suggestions on different page?-->
+            <!--Use local storage to store and retrieve user suggestions -->
         </section>
     </main>
     <footer class="bg-light text-center py-4 mt-auto">
