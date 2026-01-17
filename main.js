@@ -39,22 +39,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tipForm = document.getElementById('tipForm');
 
-    tipForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+    if (tipForm) {
+        tipForm.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-        const category = document.getElementById('tipCategory').value;
-        const text = document.getElementById('tipContent').value.trim();
+            const category = document.getElementById('tipCategory').value;
+            const text = document.getElementById('tipContent').value.trim();
 
-        if (!category || !text) return;
+            if (!category || !text) return;
 
-        addTipToDOM(category, text);
+            addTipToDOM(category, text);
 
-        savedTips.push({ category, text });
-        localStorage.setItem('backpackerTips', JSON.stringify(savedTips));
+            savedTips.push({ category, text });
+            localStorage.setItem('backpackerTips', JSON.stringify(savedTips));
 
+<<<<<<< HEAD
         tipForm.reset();
     });
     
+=======
+            tipForm.reset();
+        });
+    }
+
+>>>>>>> 645bde8 (Add planner functionality -html/js: implemented item addition, rendering, and deletion similar to tips section to keep code consistent)
     //add tip to page
     function addTipToDOM(category, text) {
         const newTip = document.createElement('div');
@@ -70,4 +78,70 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
         tipContainer.appendChild(newTip);
     }
+
+    //Planner Page JS - maybe try add drag and drop later
+    const plannerForm = document.getElementById('plannerForm');
+    const plannerContainer = document.getElementById('plannerItems');
+    const plannerNotes = document.getElementById('plannerNotes');
+    let plannerItems = JSON.parse(localStorage.getItem('plannerItems')) || [];
+
+    if (plannerForm && plannerContainer) {
+
+        plannerItems.forEach(renderPlannerItem);
+
+        plannerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('itemName').value.trim();
+            const type = document.getElementById('itemType').value;
+            const date = document.getElementById('itemDate').value;
+
+            if (!name) return;
+
+            const newItem = { id: Date.now(), name, type, date };
+            plannerItems.push(newItem);
+
+            localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
+            renderPlannerItem(newItem);
+
+            plannerForm.reset();
+        });
+    }
+
+    // Render a planner item in the DOM
+    function renderPlannerItem(item) {
+        const plannerContainer = document.getElementById('plannerItems');
+
+        const div = document.createElement('div');
+        div.className = 'col-md-4'
+
+        div.innerHTML = `
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <span class="badge bg-primary mb-2">${item.type}</span>
+                    <h5 class="card-title">${item.name}</h5>
+                    <p class="card-text">${item.date ? `Date: ${item.date}` : ''}</p>
+
+                    <button class="btn btn-sm btn-danger mt-2 delete-btn" data-id="${item.id}">Delete</button>
+                </div>
+            </div>
+        `;
+
+        plannerContainer.appendChild(div);
+    }
+
+    // Delete planner item
+    plannerContainer.addEventListener('click', (e) => {
+        if (!e.target.classList.contains('delete-btn')) return;
+
+        const id = Number(e.target.dataset.id);
+
+        const index = plannerItems.findIndex(item => item.id === id);
+        if (index === -1) return;
+
+        plannerItems.splice(index, 1);
+        localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
+
+        e.target.closest('.col-md-4').remove();
+    });
 });
