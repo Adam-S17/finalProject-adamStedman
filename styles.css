@@ -30,3 +30,26 @@ h1, h2 {
   transform: scale(1.05);
   transition: transform 0.3s;
 }
+
+.tips-categories .card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tips-categories .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.15);
+}
+
+.tips-categories .card-img-top {
+  height: 160px;
+  object-fit: cover;
+}
+
+.tips-categories .card-img-top {
+  transition: transform 0.3s ease;
+}
+
+.tips-categories .card:hover .card-img-top {
+  transform: scale(1.05);
+}
+

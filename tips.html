@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
     <title>Backpackers Travel - Travel Tips</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -15,7 +16,8 @@
             <div class="container">
                 <a class="navbar-brand" href="tips.html">Backpackers Travel</a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                    aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -40,24 +42,180 @@
             <h1 class="mb-3">Travel Tips</h1>
             <p class="lead">Look at some of ours useful travel tips!</p>
         </section>
-        <section>
-            <h3>Share your Tips</h3>
-            <form>
-                <!-- Form for submitting travel tips -->
-            </form>
+        <section class="tips-categories mb-5">
+            <h2 class="mb-4">Useful Tips for Backpackers</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+                <div class="col-md-4" data-target="#budget">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1731910549709-bfaffd5e73d9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YnVkZ2V0JTIwYW5kJTIwbW9uZXl8ZW58MHx8MHx8fDA%3D"
+                            class="card-img-top" alt="money saving">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Budget</h5>
+                            <p class="card-text">
+                                How to save money, manage spending, and travel on a backpackers budget.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-target="#packing">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1534534573898-db5148bc8b0c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHBhY2tpbmd8ZW58MHx8MHx8fDA%3D"
+                            class="card-img-top" alt="suitcases">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Packing</h5>
+                            <p class="card-text">
+                                What to bring, what to leave at home and the best way to travel lightly.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-target="#health">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1573423234881-abf43e60c6fd?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aGVhbHRoJTIwJTI2JTIwc2FmZXR5fGVufDB8fDB8fHww"
+                            class="card-img-top" alt="no motorbikes sign">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Health &amp; Safety</h5>
+                            <p class="card-text">
+                                Stay safe while on your trip with health and security advice.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-target="#transport">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1512554225227-89e158d18198?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHNsZWVwZXIlMjBidXN8ZW58MHx8MHx8fDA%3D"
+                            class="card-img-top" alt="bus full of people">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Transport</h5>
+                            <p class="card-text">
+                                Save time trying to figure out buses, trains, boats and flights. Get around as a local
+                                would.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-target="#accommodation">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1709805619372-40de3f158e83?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG9zdGVsfGVufDB8fDB8fHww"
+                            class="card-img-top" alt="hostel room">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Accommodation</h5>
+                            <p class="card-text">
+                                Hotels, hostels and guesthouses, these are the places to stay.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="tips-details mb-5">
+            <h2 class="mb-4 text-center">Detailed Travel Tips</h2>
+
+            <!-- Tab selectors -->
+            <ul class="nav nav-tabs justify-content-center mb-4" id="tipsTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="budget-tab" data-bs-toggle="tab" data-bs-target="#budget"
+                        type="button" role="tab" aria-controls="budget" aria-selected="true">Budget</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="packing-tab" data-bs-toggle="tab" data-bs-target="#packing"
+                        type="button" role="tab" aria-controls="packing" aria-selected="true">Packing</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="health-tab" data-bs-toggle="tab" data-bs-target="#health" type="button"
+                        role="tab" aria-controls="health" aria-selected="true">Health &amp; Safety</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="transport-tab" data-bs-toggle="tab" data-bs-target="#transport"
+                        type="button" role="tab" aria-controls="transport" aria-selected="true">Transport</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="accommodation-tab" data-bs-toggle="tab" data-bs-target="#accommodation"
+                        type="button" role="tab" aria-controls="accommodation"
+                        aria-selected="true">Accommodation</button>
+                </li>
+            </ul>
+
+            <!-- Tab content -->
+            <div class="tab-content mt-3" id="tipsTabContent">
+                <div class="tab-pane fade show active" id="budget" role="tabpanel" aria-labelledby="budget-tab">
+                    <ul>
+                        <li>use local markets for food</li>
+                        <li>travel offseason</li>
+                        <li>stay in hostels</li>
+                        <li>use public transport</li>
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="packing" role="tabpanel" aria-labelledby="packing-tab">
+                    <ul>
+                        <li>pack light</li>
+                        <li>bring versatile clothing</li>
+                        <li>use packing cubes</li>
+                        <li>carry essential toiletries</li>
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="health" role="tabpanel" aria-labelledby="health-tab">
+                    <ul>
+                        <li>stay hydrated</li>
+                        <li>get necessary vaccinations</li>
+                        <li>carry a basic first-aid kit</li>
+                        <li>avoid street food if unsure</li>
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="transport" role="tabpanel" aria-labelledby="transport-tab">
+                    <ul>
+                        <li>use public transport</li>
+                        <li>rent bikes or scooters</li>
+                        <li>walk when possible</li>
+                        <li>book tickets in advance</li>
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="accommodation" role="tabpanel" aria-labelledby="accommodation-tab">
+                    <ul>
+                        <li>book hostels for budget stays</li>
+                        <li>consider homestays for cultural experience</li>
+                        <li>read reviews before booking</li>
+                        <li>check location for convenience</li>
+                    </ul>
+                </div>
+            </div>
         </section>
         <section>
+            <h3>Share your Tips</h3>
+            <form id="tipForm">
+                <div class="mb-3">
+                    <label for="tipCategory" class="form-label">Category</label>
+                    <select id="tipCategory" class="form-select" required>
+                        <option value="" disabled selected>Select a category</option>
+                        <option value="budget">Budget</option>
+                        <option value="packing">Packing</option>
+                        <option value="health">Health &amp; Safety</option>
+                        <option value="transport">Transport</option>
+                        <option value="accommodation">Accommodation</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="tipContent" class="form-label">Your Tip</label>
+                    <textarea id="tipContent" class="form-control" rows="4" placeholder="Share your travel tip here..."
+                        required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Tip</button>
+            </form>
+        </section>
+        <section class="mt-5">
             <h3>Tips from other backpackers</h3>
-            <div>
-                <!-- List of travel tips will be dynamically loaded here -->
+            <div id="userTips" class="row g-3 mt-3">
+                <!-- New tips will appear here -->
             </div>
         </section>
     </main>
     <footer class="bg-light text-center py-4 mt-auto">
         <p class="mb-0">&copy; 2025 Backpackers Travel</p>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
     <script src="main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
