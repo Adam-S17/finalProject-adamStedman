@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         tipForm.reset();
     });
-
+    
     //add tip to page
     function addTipToDOM(category, text) {
         const newTip = document.createElement('div');

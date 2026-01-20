@@ -45,6 +45,27 @@
             <!-- Additional planner content can go here -->
         </section>
         <section>
+            <!--Add trip form-->
+            <h2>Add a New Trip</h2>
+            <form id="plannerForm" class="mb-4">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <input type="text" id="tripName" class="form-control" placeholder="Trip or Tour Name" required>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="date" id="tripDate" class="form-control" required>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" id="tripLocation" class="form-control" placeholder="Location" required>
+                    </div>
+                    <div class="col-md-2">
+                        <textarea id="tripNotes" class="form-control" placeholder="Notes (Optional)"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Add to Planner</button>
+                </div>
+            </form>
+        </section>
+        <section>
             <h3>Saved Destinations</h3>
             <ul>
                 <!-- Dynamically populated list of saved destinations -->
@@ -55,12 +76,6 @@
             <ul>
                 <!-- Dynamically populated list of saved tours -->
             </ul>
-        </section>
-        <section>
-            <h3>My Notes</h3>
-            <!-- User's travel notes will be saved here -->
-            <textarea placeholder="Write your travel notes here...">
-            </textarea>
         </section>
     </main>
     <footer class="bg-light text-center py-4 mt-auto">
