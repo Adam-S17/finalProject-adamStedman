@@ -71,3 +71,35 @@ document.addEventListener('DOMContentLoaded', () => {
         tipContainer.appendChild(newTip);
     }
 });
+
+// Map functionality for the destinations page.
+
+//Open map on center of world view
+const map = L.map('map').setView([20, 0], 2);
+
+// Load map tiles from OpenStreetMap
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+map.on('click', function (e) {
+    const lat = e.latlng.lat;
+    const lon = e.latlng.lng;
+
+    console.log(`Clicked at Latitude: ${lat}, Longitude: ${lon}`);
+});
+
+//get weather
+function getWeather(lat, lon) {
+    const apiKey = "00cad81850be91cc53869e295fb55b5b"; //API key from OpenWeatherMap
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Error fetching weather data:', error);
+        })
+};

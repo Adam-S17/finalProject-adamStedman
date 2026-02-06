@@ -7,10 +7,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
     <title>Backpackers Travel - Destinations</title>
 </head>
 
 <body>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
@@ -45,11 +47,65 @@
             <h2>Weather Map</h2>
             <p>Click on a destination to view details.</p>
             <!-- Map container for Leaflet/Google Maps -->
-            <div class="border rounded p-5 text-center bg-light">
-                <!-- Map will render here via JS -->
-                <p class="mb-0">Map placeholder</p>
+            <div id="map" class="rounded">
+
             </div>
         </section>
+        <section class="mb-5 user-weather">
+            <h2>Your selected destination's weather:</h2>
+            <div class="card-p3">
+                <h3>Click on the map to view weather details.</h3>
+                <div class="d-flex align-items-center mt-2">
+                    <img src="https://via.placeholder.com/50" alt="Weather Icon" class="me-3">
+                    <div class="ms-3">
+                        <p id="weatherDescription" class="mb-1">Placeholder</p>
+                        <p id="weatherTemp" class="mb-0">Placeholder</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5 top-places">
+            <h2>Top Weather Destinations???</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover" id="topPlacesTable">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>#</th>
+                            <th>Destination</th>
+                            <th>Temperature</th>
+                            <th>Weather</th>
+                            <th>Icon</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Placeholder rows - will be populated with JS -->
+                        <tr>
+                            <td>1</td>
+                            <td>Destination 1</td>
+                            <td>25°C</td>
+                            <td>Sunny</td>
+                            <td><img src="https://via.placeholder.com/30" alt="Weather Icon"></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Destination 2</td>
+                            <td>18°C</td>
+                            <td>Cloudy</td>
+                            <td><img src="https://via.placeholder.com/30" alt="Weather Icon"></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Destination 3</td>
+                            <td>30°C</td>
+                            <td>Hot</td>
+                            <td><img src="https://via.placeholder.com/30" alt="Weather Icon"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
         <section class="mb-5"> <!-- Filter Options -->
             <h2>Filter by region:</h2>
             <!--Connect filters using JS-->
