@@ -178,3 +178,94 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
+// Random destination generator for the destinations page.
+const destinations = [
+    { "name": "Bangkok", lat: 15.8700, lon: 100.9925 },
+    { "name": "Barcelona", lat: 41.3851, lon: 2.1734 },
+    { "name": "Buenos Aires", lat: -34.6037, lon: -58.3816 },
+    { "name": "Cape Town", lat: -33.9249, lon: 18.4241 },
+    { "name": "Hanoi", lat: 21.0285, lon: 105.8542 },
+    { "name": "Rio de Janeiro", lat: -22.9068, lon: -43.1729 },
+    { "name": "Istanbul", lat: 41.0151, lon: 28.9795 },
+    { "name": "Prague", lat: 50.0755, lon: 14.4378 },
+    { "name": "Marrakech", lat: 31.6253, lon: -7.9848 },
+    { "name": "Sydney", lat: -33.8651, lon: 151.2099 },
+    { "name": "London", lat: 51.5074, lon: -0.1278 },
+    { "name": "New York City", lat: 40.7128, lon: -74.0060 },
+    { "name": "Tokyo", lat: 35.6762, lon: 139.6503 },
+    { "name": "Mexico City", lat: 19.4326, lon: -99.1332 },
+    { "name": "Bali", lat: -8.3405, lon: 115.0920 },
+    { "name": "Beijing", lat: 39.9042, lon: 116.4074 },
+    { "name": "Cairo", lat: 30.0444, lon: 31.2357 },
+    { "name": "Lisbon", lat: 38.7223, lon: -9.1393 },
+    { "name": "Athens", lat: 37.9838, lon: 23.7275 },
+    { "name": "Seoul", lat: 37.5665, lon: 126.9780 },
+    { "name": "Manila", lat: 14.5995, lon: 120.9842 },
+    { "name": "Lima", lat: -12.0464, lon: -77.0428 },
+    { "name": "Kuala Lumpur", lat: 3.1390, lon: 101.6869 },
+    { "name": "Moscow", lat: 55.7558, lon: 37.6173 },
+    { "name": "Dublin", lat: 53.3498, lon: -6.2603 },
+    { "name": "Dubai", lat: 25.2048, lon: 55.2708 },
+];
+
+// Function to get random destinations from the list
+function getRandomDestinations(array, count) {
+    const shuffled = array.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+};
+
+// Function to get times from destinations using API
+function getTimes(getTimezoneOffset) {
+    const nowUTC = new Date().getTime() + (new Date().getTimezoneOffset() * 60000);
+    const localTime = new Date(nowUTC + (getTimezoneOffset * 1000));
+    return localTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+const randomDestinations = getRandomDestinations(destinations, 10);
+
+// Function to fetch weather data for random destinations
+function randomDestinationsWeather(destinations) {
+    const apiKey = "00cad81850be91cc53869e295fb55b5b"; //API key from OpenWeatherMap
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${destinations.lat}&lon=${destinations.lon}&units=metric&appid=${apiKey}`;
+
+    return fetch(url)
+        .then(response => response.json())
+        .then(data => {
+
+            const localTime = getTimes(data.timezone);
+
+            return {
+                name: destinations.name,
+                temp: data.main.temp,
+                description: data.weather[0].description,
+                icon: data.weather[0].icon,
+                localTime: localTime
+            };
+        });
+};
+
+// Display random destinations and their weather in table
+function displayRandomDestinations(destinations) {
+    const tableBody = document.querySelector('#topPlacesTable tbody');
+
+    const rowCount = tableBody.rows.length;
+    const row = document.createElement('tr');
+
+    row.innerHTML = `
+        <td>${rowCount + 1}</td>
+        <td>${destinations.name}</td>
+        <td>${destinations.temp} °C</td>
+        <td>${destinations.description}<img src="https://openweathermap.org/img/wn/${destinations.icon}.png" alt="${destinations.description}"></td>
+        <td>${destinations.localTime}</td>
+    `;
+    tableBody.appendChild(row);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const randomDestinations = getRandomDestinations(destinations, 10);
+    randomDestinations.forEach(destinations => {
+        randomDestinationsWeather(destinations)
+            .then(displayRandomDestinations);
+    });
+});
