@@ -255,9 +255,10 @@ function displayRandomDestinations(destinations) {
     row.innerHTML = `
         <td>${rowCount + 1}</td>
         <td>${destinations.name}</td>
-        <td>${destinations.temp} °C</td>
-        <td>${destinations.description}<img src="https://openweathermap.org/img/wn/${destinations.icon}.png" alt="${destinations.description}"></td>
         <td>${destinations.localTime}</td>
+        <td>${destinations.temp} °C</td>
+        <td>${destinations.description}</td>
+        <td><img src="https://openweathermap.org/img/wn/${destinations.icon}.png" alt="${destinations.description}"></td>
     `;
     tableBody.appendChild(row);
 }
