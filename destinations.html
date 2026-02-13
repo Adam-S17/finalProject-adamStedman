@@ -35,9 +35,7 @@
             </div>
         </nav>
     </header>
-    <!--Interactive map using Leaflet.js or Google Maps API; users can click pins to see destination info.
-    Filter options: by region, type of trip (adventure, beach, cultural).
-    Backpacker Suggestions feed: display user-submitted destinations from tips page.-->
+
     <main class="container my-5">
         <section class="mb-5">
             <h1 class="mb-3">Destinations</h1>
@@ -46,7 +44,7 @@
         <section class="mb-5">
             <h2>Weather Map</h2>
             <p>Click on a destination to view details.</p>
-            <!-- Map container for Leaflet/Google Maps -->
+            <!-- Map container for Leaflet -->
             <div class="row g-4">
                 <div class="col-lg-8">
                     <div id="map" class="rounded h-100"></div>
@@ -59,6 +57,8 @@
                                 <p id="weatherLocation" class="fw-bold mb-1">Click on the map to view destination</p>
                                 <p id="weatherDescription" class="mb-1 text-muted">Weather info will appear here</p>
                                 <p id="weatherTemp" class="mb-0 fw-semi-bold"></p>
+                                <img id="weatherIcon" src="https://via.placeholder.com/50" alt="Weather icon"
+                                    class="ms-2">
                             </div>
                         </div>
                     </div>
@@ -90,55 +90,39 @@
         <section class="mb-5"> <!-- Filter Options -->
             <h2>Filter by region:</h2>
             <!--Connect filters using JS-->
-            <div class="row g-3">
-                <div class="col-md-4">
+            <div class="row g-3 mb-3">
+                <div id="regionFilter" class="col-md-4">
                     <select class="form-select">
-                        <option>All</option>
-                        <option>Asia</option>
-                        <option>South America</option>
-                        <option>Europe</option>
+                        <option value="All">All Regions</option>
+                        <option value="Asia">Asia</option>
+                        <option value="Europe">Europe</option>
+                        <option value="Africa">Africa</option>
+                        <option value="North America">North America</option>
+                        <option value="South America">South America</option>
+                        <option value="Oceania">Oceania</option>
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <select class="form-select">
-                        <option>All Trips</option>
-                        <option>Placeholder</option>
-                        <option>placeholder</option>
-                        <option>placeholder</option>
+                    <select id="typeFilter" class="form-select">
+                        <option value="All">All Types</option>
+                        <option value="Cultural">Cultural</option>
+                        <option value="Beach">Beach</option>
+                        <option value="Adventure">Adventure</option>
+                        <option value="Urban">Urban</option>
+                        <option value="Food & Drink">Food &amp; Drink</option>
                     </select>
                 </div>
             </div>
         </section>
-        <section class="mb-5"> <!-- Featured Destination - might turn into cards -->
+
+        <section class="mb-5">
             <h2 class="mb-4">Popular Destinations</h2>
-            <p>Placeholder Text</p>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">Destination 1</h5>
-                            <p class="card-text">Brief description of Destination 1.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">Destination 1</h5>
-                            <p class="card-text">Brief description of Destination 1.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">Destination 1</h5>
-                            <p class="card-text">Brief description of Destination 1.</p>
-                        </div>
-                    </div>
-                </div>
+            <p>Checkout some of our most popular destinations:</p>
+            <div class="row g-4" id="featuredDestinations">
+                <!-- Placeholder for featured destination cards - will be populated with JS -->
             </div>
         </section>
+
         <section class="user-destinations mb-5">
             <h2>Backpacker Suggestions</h2>
             <p>Here are some destinations suggested by fellow backpackers:</p>
