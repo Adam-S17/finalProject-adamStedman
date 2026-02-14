@@ -144,3 +144,42 @@ h1, h2 {
   background-color: #0d6efd;
   padding: 4px;
 }
+
+.card-img-top {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transform: transform 0.5s ease;
+}
+
+.travel-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.travel-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.image-wrapper {
+  height: 300px;
+  overflow: hidden;
+}
+
+.travel-card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+.travel-card .btn {
+  border-radius: 50px;
+  font-weight: 500;
+  background-color: #6610f2;
+}
+
+.card-description {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-top: 0.5rem;
+}
