@@ -26,11 +26,6 @@ h1, h2 {
   transition: transform 0.3s, ease, box-shadow 0.3s ease;
 }
 
-.hover-card:hover {
-  transform: scale(1.05);
-  transition: transform 0.3s;
-}
-
 .tips-categories .card {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -43,9 +38,6 @@ h1, h2 {
 .tips-categories .card-img-top {
   height: 160px;
   object-fit: cover;
-}
-
-.tips-categories .card-img-top {
   transition: transform 0.3s ease;
 }
 
@@ -53,3 +45,141 @@ h1, h2 {
   transform: scale(1.05);
 }
 
+#map {
+  min-height: 400px;
+  width: 100%;
+  border-radius: 0.5rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.user-weather {
+  margin-bottom: 3rem;
+  margin-left: 1rem;
+}
+
+.user-weather .card {
+  background-color: #ffffff;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.user-weather .card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  height: 65vh;
+}
+
+.user-weather h3 {
+  margin-bottom: 0.5rem;
+}
+
+.user-weather #weatherIcon {
+  width: 60px;
+  height: 60px;
+}
+
+.user-weather #weatherLocation {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.user-weather #weatherDescription {
+  font-size: 0.95rem;
+  color: #6c757d;
+}
+
+.user-weather #weatherTemp {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0d6efd;
+}
+
+.top-places {
+  margin-bottom: 3rem;
+}
+
+.top-places h2 {
+  margin-bottom: 1rem;
+}
+
+#topPlacesTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 4px;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8);
+}
+
+#topPlacesTable thead {
+  background: linear-gradient(90deg, #0d6efd, #6610f2);
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#topPlacesTable tbody tr {
+  background-color: #f8f9fa;
+  transition: all 0.2s ease;
+}
+
+#topPlacesTable tbody tr:hover {
+  background-color: #e1ecff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+#topPlacesTable td, #topPlacesTable th {
+  padding: 0.75rem, 1rem;
+  border-top: 1px solid #dee2e6;
+}
+
+#topPlacesTable img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #0d6efd;
+  padding: 4px;
+}
+
+.card-img-top {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transform: transform 0.5s ease;
+}
+
+.travel-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.travel-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.image-wrapper {
+  height: 300px;
+  overflow: hidden;
+}
+
+.travel-card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+.travel-card .btn {
+  border-radius: 50px;
+  font-weight: 500;
+  background-color: #6610f2;
+}
+
+.card-description {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-top: 0.5rem;
+}
