@@ -81,6 +81,9 @@ async function getWeather(lat, lon) {
     const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
     const placeUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`;
 
+    const iconElement = document.getElementById('weatherIcon');
+    iconElement.style.display = 'none';
+
     try {
         const placeResponse = await fetch(placeUrl);
         const placeData = await placeResponse.json();
@@ -103,7 +106,8 @@ async function getWeather(lat, lon) {
 
         document.getElementById('weatherDescription').textContent = description;
         document.getElementById('weatherTemp').textContent = `${temp} °C`;
-        document.getElementById('weatherIcon').src = `https://openweathermap.org/img/wn/${icon}.png`;
+        iconElement.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+        iconElement.style.display = 'inline-block';
     }
     catch (error) {
         document.getElementById('weatherDescription').textContent = 'Unable to load weather data.';
@@ -129,7 +133,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('weatherDescription').textContent = 'Loading...';
         document.getElementById('weatherTemp').textContent = '';
-        document.getElementById('weatherIcon').src = 'https://via.placeholder.com/50';
+        const iconElement = document.getElementById('weatherIcon');
+        iconElement.style.display = 'none';
         document.getElementById('weatherLocation').textContent = 'Loading...';
 
         getWeather(lat, lon);
@@ -169,7 +174,7 @@ const destinations = [
     { region: "Asia", name: "Vang Vieng", lat: 18.9189, lon: 102.4478, type: "Adventure", description: "A charming town in Laos known for its scenic river landscapes and outdoor adventure activities.", image: "https://images.unsplash.com/photo-1739591816074-3dfde2faf16b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dmFuZyUyMHZpZluZ3xlbnwwfHwwfHx8MA%3D%3D" },
     { region: "Asia", name: "Siem Reap", lat: 13.3671, lon: 103.8448, type: "Cultural", description: "Home to the Angkor Wat temples and vibrant Cambodian culture.", image: "https://images.unsplash.com/photo-1599283787923-51b965a58b05?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2llbSUyMHJlYXB8ZW58MHx8MHx8fDA%3D" },
     { region: "Europe", name: "Budapest", lat: 47.4979, lon: 19.0402, type: "Cultural", description: "Famous for its historic thermal baths, stunning architecture, and the Danube river.", image: "https://images.unsplash.com/photo-1541343672885-9be56236302a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YnVkYXBlc3R8ZW58MHx8MHx8fDA%3D" },
-    { region: "South America", name: "Cartagena", lat: 10.3910, lon: -75.4794, type: "Beach", description: "A colorful coastal city with colonial architecture and Caribbean vibes.", image: "https://images.unsplash.com/photo-1534943441045-1009d7cb0bb9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FydGFnZW5hfGVufDB8fDB8fHww"},
+    { region: "South America", name: "Cartagena", lat: 10.3910, lon: -75.4794, type: "Beach", description: "A colorful coastal city with colonial architecture and Caribbean vibes.", image: "https://images.unsplash.com/photo-1534943441045-1009d7cb0bb9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FydGFnZW5hfGVufDB8fDB8fHww" },
     { region: "Africa", name: "Zanzibar", lat: -6.1659, lon: 39.2026, type: "Beach", description: "An island paradise with white sandy beaches, spice farms, and vibrant culture.", image: "https://images.unsplash.com/photo-1628531895969-df353541bafe?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8emFuemliYXJ8ZW58MHx8MHx8fDA%3D" },
     { region: "Oceania", name: "Queenstown", lat: -45.0312, lon: 168.6626, type: "Adventure", description: "Known as the adventure capital of New Zealand, surrounded by lakes and mountains.", image: "https://images.unsplash.com/photo-1547314283-befb6cc5cf29?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cXVlZW5zdG93bnxlbnwwfHwwfHx8MA%3D%3D" },
     { region: "Asia", name: "Kathmandu", lat: 27.7172, lon: 85.3240, type: "Cultural", description: "A historic city with temples, bustling streets, and gateway to the Himalayas.", image: "https://images.unsplash.com/photo-1592285896110-8d88b5b3a5d8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8a2F0aG1hbmR1fGVufDB8fDB8fHww" },
@@ -180,8 +185,8 @@ const destinations = [
     { region: "South America", name: "Cusco", lat: -13.5319, lon: -71.9675, type: "Cultural", description: "Historic city and former capital of the Inca Empire, gateway to Machu Picchu.", image: "https://plus.unsplash.com/premium_photo-1733342523406-43ad5578305e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Y3VzY298ZW58MHx8MHx8fDA%3D" },
     { region: "Africa", name: "Mombasa", lat: -4.0435, lon: 39.6682, type: "Beach", description: "Kenya’s coastal city with beaches, historic forts, and Swahili culture.", image: "https://plus.unsplash.com/premium_photo-1697729911993-626a3e2c44eb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bW9tYmFzYXxlbnwwfHwwfHx8MA%3D%3D" },
     { region: "Asia", name: "Hokkaido", lat: 43.2203, lon: 142.8635, type: "Adventure", description: "Japan’s northern island, known for ski resorts, volcanoes, and hot springs.", image: "https://images.unsplash.com/photo-1624112931739-4f84f574f3dd?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGhva2thaWRvfGVufDB8fDB8fHww" },
-    { region: "Oceania", name: "Auckland", lat: -36.8485, lon: 174.7633, type: "Urban", description: "New Zealand’s largest city, blending city life with natural harbors and volcanoes.", image: "https://images.unsplash.com/photo-1595125989588-36d745a2a828?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YXVja2xhbmR8ZW58MHx8MHx8fDA%3D"},
-    { region: "Europe", name: "Edinburgh", lat: 55.9533, lon: -3.1883, type: "Cultural", description: "Scotland’s historic capital with a medieval castle and vibrant festivals.", image: "https://images.unsplash.com/photo-1569668444050-b7bc2bfec0c7?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZWRpbmJ1cmdofGVufDB8fDB8fHww"},
+    { region: "Oceania", name: "Auckland", lat: -36.8485, lon: 174.7633, type: "Urban", description: "New Zealand’s largest city, blending city life with natural harbors and volcanoes.", image: "https://images.unsplash.com/photo-1595125989588-36d745a2a828?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YXVja2xhbmR8ZW58MHx8MHx8fDA%3D" },
+    { region: "Europe", name: "Edinburgh", lat: 55.9533, lon: -3.1883, type: "Cultural", description: "Scotland’s historic capital with a medieval castle and vibrant festivals.", image: "https://images.unsplash.com/photo-1569668444050-b7bc2bfec0c7?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZWRpbmJ1cmdofGVufDB8fDB8fHww" },
     { region: "Asia", name: "Guilin", lat: 25.2742, lon: 110.2991, type: "Adventure", description: "Famous for its limestone karst landscapes and scenic river cruises.", image: "https://plus.unsplash.com/premium_photo-1692049122499-30cd8a2f3cc5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Z3VpbGlufGVufDB8fDB8fHww" },
     { region: "South America", name: "Santiago", lat: -33.4489, lon: -70.6693, type: "Urban", description: "Chile’s capital, nestled between mountains, offering culture and modern city life.", image: "https://images.unsplash.com/photo-1689850543263-01a52ccc6943?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2FudGlhZ28lMjBjaGlsZXxlbnwwfHwwfHx8MA%3D%3D" },
     { region: "Europe", name: "Valencia", lat: 39.4699, lon: -0.3763, type: "Beach", description: "A Spanish city known for futuristic architecture, beaches, and paella.", image: "https://plus.unsplash.com/premium_photo-1697730336238-5d1d342127e8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dmFsZW5jaWF8ZW58MHx8MHx8fDA%3D" },
@@ -204,6 +209,17 @@ const destinations = [
     { region: "Asia", name: "Koh Samui", lat: 9.5120, lon: 100.0131, type: "Beach", description: "A tropical island in Thailand known for its palm-fringed beaches, luxury resorts, and vibrant nightlife.", image: "https://plus.unsplash.com/premium_photo-1661962432490-6188a6420a81?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8a29oJTIwc2FtdWl8ZW58MHx8MHx8fDA%3D" },
     { region: "Asia", name: "Koh Rong", lat: 10.6760, lon: 103.1667, type: "Beach", description: "A Cambodian island known for its pristine beaches, clear waters, and laid-back atmosphere.", image: "https://images.unsplash.com/photo-1651510688557-38374c863380?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8a29oJTIwcm9uZ3xlbnwwfHwwfHx8MA%3D%3D" },
     { region: "Asia", name: "Ha Giang", lat: 22.7636, lon: 104.9950, type: "Adventure", description: "A stunning mountainous region in northern Vietnam, known for winding roads, ethnic minority villages, and breathtaking landscapes.", image: "https://images.unsplash.com/photo-1536511671359-849531c0a576?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aGElMjBnaWFuZ3xlbnwwfHwwfHx8MA%3D%3D" },
+    { region: "Africa", name: "Addis Ababa", lat: 8.9806, lon: 38.7578, type: "Food & Drink", description: "Ethiopia’s capital, famous for coffee culture, traditional cuisine, and lively markets.", image: "https://images.unsplash.com/photo-1626598442658-ea6a1a5943df?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGFkZGlzJTIwYWJhYmF8ZW58MHx8MHx8fDA%3D" },
+    { region: "Africa", name: "Dakar", lat: 14.7167, lon: -17.4677, type: "Food & Drink", description: "A vibrant coastal capital known for seafood, music, and West African culture.", image: "https://images.unsplash.com/photo-1711024109764-09668e4e0ee7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGRha2hhcnxlbnwwfHwwfHx8MA%3D%3D" },
+    { region: "Africa", name: "Johannesburg", lat: -26.2041, lon: 28.0473, type: "Urban", description: "South Africa’s largest city, known for modern culture, history, and vibrant nightlife.", image: "https://images.unsplash.com/photo-1583076477550-38e4019672a9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGpvaGFubmVzYnVyZ3xlbnwwfHwwfHx8MA%3D%3D" },
+    { region: "Africa", name: "Nairobi", lat: -1.2921, lon: 36.8219, type: "Urban", description: "Kenya’s capital, a fast-growing city where urban life meets nearby wildlife reserves.", image: "https://images.unsplash.com/photo-1635595358293-03620e36be48?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bmFpcm9iaXxlbnwwfHwwfHx8MA%3D%3D" },
+    { region: "North America", name: "Cancún", lat: 21.1619, lon: -86.8515, type: "Beach", description: "A popular Caribbean destination known for white-sand beaches and turquoise waters.", image: "https://images.unsplash.com/photo-1711220465753-2450b31ea318?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y2FuY3VuJTIwbWV4aWNvfGVufDB8fDB8fHww" },
+    { region: "North America", name: "Banff", lat: 51.1784, lon: -115.5708, type: "Adventure", description: "A Canadian mountain town surrounded by national parks, lakes, and hiking trails.", image: "https://plus.unsplash.com/premium_photo-1672116453000-c31b150f48ef?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YmFuZmZ8ZW58MHx8MHx8fDA%3D" },
+    { region: "North America", name: "New Orleans", lat: 29.9511, lon: -90.0715, type: "Food & Drink", description: "A cultural hub famous for Creole cuisine, jazz music, and historic streets.", image: "https://images.unsplash.com/photo-1635352934507-cd4ad73275c6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bmV3JTIwb3JsZWFuc3xlbnwwfHwwfHx8MA%3D%3D" },
+    { region: "South America", name: "La Paz", lat: -16.4897, lon: -68.1193, type: "Adventure", description: "Bolivia’s high-altitude capital, surrounded by mountains and dramatic landscapes.", image: "https://images.unsplash.com/photo-1596118769843-08e9ad381ab0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bGElMjBwYXp8ZW58MHx8MHx8fDA%3D" },
+    { region: "South America", name: "Bariloche", lat: -41.1335, lon: -71.3103, type: "Adventure", description: "An Argentine town known for lakes, mountains, skiing, and outdoor adventures.", image: "https://images.unsplash.com/photo-1598162461164-5cb059c382c6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YmFyaWxvY2hlfGVufDB8fDB8fHww" },
+    { region: "Oceania", name: "Hobart", lat: -42.8821, lon: 147.3272, type: "Cultural", description: "Tasmania’s historic capital, known for art, heritage buildings, and waterfront markets.", image: "https://images.unsplash.com/photo-1706065495724-60ed0d69460e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aG9iYXJ0fGVufDB8fDB8fHww" },
+    { region: "Oceania", name: "Apia", lat: -13.8333, lon: -171.7667, type: "Cultural", description: "The capital of Samoa, known for Polynesian culture, markets, and island traditions.", image: "https://plus.unsplash.com/premium_photo-1726612067616-e38c26812b2c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YXBpYSUyMHNhbW9hfGVufDB8fDB8fHww" },
 ];
 
 // Function to get random destinations from the list
@@ -260,13 +276,11 @@ function displayRandomDestinations(destinations) {
     tableBody.appendChild(row);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const randomDestinations = getRandomDestinations(destinations, 10);
     randomDestinations.forEach(dest => {
         randomDestinationsWeather(dest)
             .then(displayRandomDestinations);
     });
-});
+
 
 // Dsiplay destination cards based on user filters
 function filterDestinations() {
@@ -327,3 +341,10 @@ function displayFeaturedDestinations(destinations) {
         container.appendChild(card);
     });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    displayFeaturedDestinations(getRandomDestinations(destinations, 12));
+
+    document.getElementById('typeFilter').addEventListener('change', filterDestinations);
+    document.getElementById('regionFilter').addEventListener('change', filterDestinations);
+});
