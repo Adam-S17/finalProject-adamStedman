@@ -45,22 +45,55 @@
             <!-- Additional planner content can go here -->
         </section>
         <section>
+            <!--Add trip form-->
+            <div class="card shadow-lg border-0 rounded-4 p-4 mb-5 planner-card">
+                <h2 class="mb-4 text-center fw-semibold">Plan your next adventure</h2>
+                <form id="plannerForm">
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Trip Name</label>
+                            <input type="text" id="tripName" class="form-control form-control-lg rounded-3"
+                                placeholder="Trip or Tour Name" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Travel Date</label>
+                            <input type="date" id="tripDate" class="form-control form-control-lg rounded-3" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Location</label>
+                            <input type="text" id="tripLocation" class="form-control form-control-lg rounded-3"
+                                placeholder="Location" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Notes</label>
+                            <textarea id="tripNotes" class="form-control form-control-lg rounded-3" rows="3"
+                                placeholder="Notes (Optional)"></textarea>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg px-5 rounded-pill shadow-sm">Add to
+                            Planner</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h3>My Planner</h3>
+            <div id="plannerItems" class="row g-4">
+                <!-- Dynamically populated planner items will appear here -->
+            </div>
+        </section>
+
+        <section>
             <h3>Saved Destinations</h3>
             <ul>
                 <!-- Dynamically populated list of saved destinations -->
             </ul>
-        </section>
-        <section>
-            <h3>Saved Tours</h3>
-            <ul>
-                <!-- Dynamically populated list of saved tours -->
-            </ul>
-        </section>
-        <section>
-            <h3>My Notes</h3>
-            <!-- User's travel notes will be saved here -->
-            <textarea placeholder="Write your travel notes here...">
-            </textarea>
         </section>
     </main>
     <footer class="bg-light text-center py-4 mt-auto">
