@@ -44,77 +44,57 @@
                 dates, and preferences to create a personalized itinerary</p>
             <!-- Additional planner content can go here -->
         </section>
-<<<<<<< HEAD
         <section>
             <!--Add trip form-->
-            <h2>Add a New Trip</h2>
-            <form id="plannerForm" class="mb-4">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <input type="text" id="tripName" class="form-control" placeholder="Trip or Tour Name" required>
+            <div class="card shadow-lg border-0 rounded-4 p-4 mb-5 planner-card">
+                <h2 class="mb-4 text-center fw-semibold">Plan your next adventure</h2>
+                <form id="plannerForm">
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Trip Name</label>
+                            <input type="text" id="tripName" class="form-control form-control-lg rounded-3"
+                                placeholder="Trip or Tour Name" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Travel Date</label>
+                            <input type="date" id="tripDate" class="form-control form-control-lg rounded-3" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Location</label>
+                            <input type="text" id="tripLocation" class="form-control form-control-lg rounded-3"
+                                placeholder="Location" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Notes</label>
+                            <textarea id="tripNotes" class="form-control form-control-lg rounded-3" rows="3"
+                                placeholder="Notes (Optional)"></textarea>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <input type="date" id="tripDate" class="form-control" required>
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg px-5 rounded-pill shadow-sm">Add to
+                            Planner</button>
                     </div>
-                    <div class="col-md-3">
-                        <input type="text" id="tripLocation" class="form-control" placeholder="Location" required>
-                    </div>
-                    <div class="col-md-2">
-                        <textarea id="tripNotes" class="form-control" placeholder="Notes (Optional)"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-3">Add to Planner</button>
-                </div>
-            </form>
+                </form>
+            </div>
         </section>
-        <section>
-            <h3>Saved Destinations</h3>
-            <ul>
-                <!-- Dynamically populated list of saved destinations -->
-            </ul>
-=======
-        <section class="mb-5">
-            <h3>Add to planner</h3>
-            <form id="plannerform" class="row g-3">
-                <div class="col-md-4">
-                    <input type="text" id="itemName" class="form-control" placeholder="Destination or Tour name"
-                        required>
-                </div>
 
-                <div class="col-md-3">
-                    <select id="itemType" class="form-select" required>
-                        <option value="">Select Type</option>
-                        <option value="destination">Destination</option>
-                        <option value="tour">Tour</option>
-                    </select>
-                </div>
-
-                <div class="col-md-3">
-                    <input type="date" id="itemDate" class="form-control" required>
-                </div>
-
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">Add</button>
-                </div>
-
-            </form>
->>>>>>> 645bde8 (Add planner functionality -html/js: implemented item addition, rendering, and deletion similar to tips section to keep code consistent)
-        </section>
         <section class="mb-5">
             <h3>My Planner</h3>
             <div id="plannerItems" class="row g-4">
                 <!-- Dynamically populated planner items will appear here -->
             </div>
         </section>
-<<<<<<< HEAD
-=======
 
-        <section class="mt-5">
-            <h3>My Notes</h3>
-            <textarea id="plannerNotes" class="form-control" rows="5" placeholder="Write your travel notes here...">
-            </textarea>
+        <section>
+            <h3>Saved Destinations</h3>
+            <ul>
+                <!-- Dynamically populated list of saved destinations -->
+            </ul>
         </section>
-        
->>>>>>> 645bde8 (Add planner functionality -html/js: implemented item addition, rendering, and deletion similar to tips section to keep code consistent)
     </main>
     <footer class="bg-light text-center py-4 mt-auto">
         <p class="mb-0">&copy; 2025 Backpackers Travel</p>

@@ -17,29 +17,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    //Default tips to appear on page - Update tips for better ones
-    const defaultTips = [
-        { category: 'budget', text: 'Create a daily budget and stick to it to manage your expenses effectively.' },
-        { category: 'packing', text: 'Pack light and only bring essentials to make your travel easier.' },
-        { category: 'health', text: 'Always carry a basic first-aid kit and stay hydrated.' },
-        { category: 'transport', text: 'Use local transportation options to save money and experience the culture.' }
-    ];
-
-    //check if localStorage is empty, if so load default tips - double check this is working
-    if (!localStorage.getItem('backpackerTips')) {
-        localStorage.setItem('backpackerTips', JSON.stringify(defaultTips));
-    }
-
-    //Load tips from localStorage when the page loads
+    //Default tips to appear on page and Load tips from localStorage when the page loads
     const tipContainer = document.getElementById('userTips');
-    const savedTips = JSON.parse(localStorage.getItem('backpackerTips')) || [];
-    savedTips.forEach(tip => addTipToDOM(tip.category, tip.text));
-
-    // Form submission event - Add tip to DOM and save to localStorage and clear form
-
     const tipForm = document.getElementById('tipForm');
 
-    if (tipForm) {
+    if (tipContainer && tipForm) {
+
+        const defaultTips = [
+            { category: 'budget', text: 'Create a daily budget and stick to it to manage your expenses effectively.' },
+            { category: 'packing', text: 'Pack light and only bring essentials to make your travel easier.' },
+            { category: 'health', text: 'Always carry a basic first-aid kit and stay hydrated.' },
+            { category: 'transport', text: 'Use local transportation options to save money and experience the culture.' }
+        ];
+
+        //check if localStorage is empty, if so load default tips - double check this is working
+        if (!localStorage.getItem('backpackerTips')) {
+            localStorage.setItem('backpackerTips', JSON.stringify(defaultTips));
+        }
+
+        const savedTips = JSON.parse(localStorage.getItem('backpackerTips')) || [];
+        savedTips.forEach(tip => addTipToDOM(tip.category, tip.text));
+
+        // Form submission event - Add tip to DOM and save to localStorage and clear form
+
         tipForm.addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -53,22 +53,15 @@ document.addEventListener('DOMContentLoaded', () => {
             savedTips.push({ category, text });
             localStorage.setItem('backpackerTips', JSON.stringify(savedTips));
 
-<<<<<<< HEAD
-        tipForm.reset();
-    });
-    
-=======
             tipForm.reset();
         });
-    }
 
->>>>>>> 645bde8 (Add planner functionality -html/js: implemented item addition, rendering, and deletion similar to tips section to keep code consistent)
-    //add tip to page
-    function addTipToDOM(category, text) {
-        const newTip = document.createElement('div');
-        newTip.className = 'col-md-4';
+        //add tip to page
+        function addTipToDOM(category, text) {
+            const newTip = document.createElement('div');
+            newTip.className = 'col-md-4';
 
-        newTip.innerHTML = `
+            newTip.innerHTML = `
         <div class="card h-100 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title text-capitalize">${category.charAt(0).toUpperCase() + category.slice(1)}</h5>
@@ -76,29 +69,30 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         </div>
     `;
-        tipContainer.appendChild(newTip);
+            tipContainer.appendChild(newTip);
+        }
     }
 
     //Planner Page JS - maybe try add drag and drop later
     const plannerForm = document.getElementById('plannerForm');
     const plannerContainer = document.getElementById('plannerItems');
-    const plannerNotes = document.getElementById('plannerNotes');
     let plannerItems = JSON.parse(localStorage.getItem('plannerItems')) || [];
 
     if (plannerForm && plannerContainer) {
 
-        plannerItems.forEach(renderPlannerItem);
+        plannerItems.forEach(item => renderPlannerItem(item));
 
         plannerForm.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            const name = document.getElementById('itemName').value.trim();
-            const type = document.getElementById('itemType').value;
-            const date = document.getElementById('itemDate').value;
+            const name = document.getElementById('tripName').value.trim();
+            const date = document.getElementById('tripDate').value;
+            const location = document.getElementById('tripLocation').value.trim();
+            const notes = document.getElementById('tripNotes').value.trim();
 
-            if (!name) return;
+            if (!name || !date || !location) return;
 
-            const newItem = { id: Date.now(), name, type, date };
+            const newItem = { id: Date.now(), name, type: 'Trip', date, location, notes };
             plannerItems.push(newItem);
 
             localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
@@ -110,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Render a planner item in the DOM
     function renderPlannerItem(item) {
-        const plannerContainer = document.getElementById('plannerItems');
 
         const div = document.createElement('div');
         div.className = 'col-md-4'
@@ -121,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="badge bg-primary mb-2">${item.type}</span>
                     <h5 class="card-title">${item.name}</h5>
                     <p class="card-text">${item.date ? `Date: ${item.date}` : ''}</p>
+                    ${item.notes ? `<p class="card-text">Notes: ${item.notes}</p>` : ''}
 
                     <button class="btn btn-sm btn-danger mt-2 delete-btn" data-id="${item.id}">Delete</button>
                 </div>
@@ -135,13 +129,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!e.target.classList.contains('delete-btn')) return;
 
         const id = Number(e.target.dataset.id);
-
-        const index = plannerItems.findIndex(item => item.id === id);
-        if (index === -1) return;
-
-        plannerItems.splice(index, 1);
+        plannerItems = plannerItems.filter(item => item.id !== id);
         localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
 
         e.target.closest('.col-md-4').remove();
     });
+
 });
