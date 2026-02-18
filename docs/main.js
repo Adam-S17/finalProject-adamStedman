@@ -414,16 +414,58 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('regionFilter').addEventListener('change', filterDestinations);
 });
 
-// Fill heart button red
+// Fill heart button red and save to local storage when clicked
 document.addEventListener('DOMContentLoaded', function () {
-    const heartButtons = document.querySelectorAll('.save-tour');
+    const saveButtons = document.querySelectorAll('.save-tour');
 
-    heartButtons.forEach(button => {
+    const savedTours = JSON.parse(localStorage.getItem('savedTours')) || [];
+    savedTours.forEach(name => {
+        const button = document.querySelector(`.save-tour[data-tour="${name}"]`);
+        if (button) {
+            const icon = button.querySelector('i');
+            icon.classList.add('bi-heart-fill');
+            icon.classList.add('filled');
+        }
+    });
+
+    saveButtons.forEach(button => {
         button.addEventListener('click', function () {
             const icon = this.querySelector('i');
-            icon.classList.toggle('bi-heart');
-            icon.classList.toggle('bi-heart-fill');
-            icon.classList.toggle('filled');
+            const tourName = this.dataset.tour;
+            let savedTours = JSON.parse(localStorage.getItem('savedTours')) || [];
+
+            if (icon.classList.contains('bi-heart-fill')) {
+                icon.classList.remove('bi-heart-fill', 'filled');
+                icon.classList.add('bi-heart');
+                savedTours = savedTours.filter(name => name !== tourName);
+            } else {
+                icon.classList.remove('bi-heart');
+                icon.classList.add('bi-heart-fill', 'filled');
+                savedTours.push(tourName);
+            }
+            localStorage.setItem('savedTours', JSON.stringify(savedTours));
         });
     });
+
+    // Display saved tours in the planned tours section
+    const plannedTours = document.getElementById('savedTours');
+    savedTours.forEach(tour => {
+        const tourItem = JSON.parse(this.dataset.tour);
+        const plannerTourCard = 
+            `<div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="${tourItem.image}" class="img-fluid rounded-start" alt="${tourItem.name}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">${tourItem.name}</h5>
+                            <p class="card-text">${tourItem.region} • ${tourItem.type}</p>
+                            <p class="card-text"><small class="text-muted">${tourItem.description}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        plannedTours.insertAdjacentHTML('beforeend', plannerTourCard);
+    })
 });
