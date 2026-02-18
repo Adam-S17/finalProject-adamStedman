@@ -341,10 +341,10 @@ function displayRandomDestinations(destinations) {
     tableBody.appendChild(row);
 }
 
-    randomDestinations.forEach(dest => {
-        randomDestinationsWeather(dest)
-            .then(displayRandomDestinations);
-    });
+randomDestinations.forEach(dest => {
+    randomDestinationsWeather(dest)
+        .then(displayRandomDestinations);
+});
 
 
 // Dsiplay destination cards based on user filters
@@ -412,4 +412,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('typeFilter').addEventListener('change', filterDestinations);
     document.getElementById('regionFilter').addEventListener('change', filterDestinations);
+});
+
+// Fill heart button red
+document.addEventListener('DOMContentLoaded', function () {
+    const heartButtons = document.querySelectorAll('.save-tour');
+
+    heartButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const icon = this.querySelector('i');
+            icon.classList.toggle('bi-heart');
+            icon.classList.toggle('bi-heart-fill');
+            icon.classList.toggle('filled');
+        });
+    });
 });
