@@ -26,6 +26,22 @@
 
         .save-tour i {
             color: #ff0000;
+            transition: color 0.2s;
+        }
+
+        .save-tour:hover,
+        .save-tour:focus {
+            background: rgba(255, 255, 255, 1);
+            border: none;
+        }
+
+        .save-tour:hover i,
+        .save-tour:focus i {
+            color: #ff0000;
+        }
+
+        .save-tour i.filled {
+            color: #ff0000;
         }
     </style>
 </head>
@@ -564,6 +580,20 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
     <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const heartButtons = document.querySelectorAll('.save-tour');
+
+            heartButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const icon = this.querySelector('i');
+                    icon.classList.toggle('bi-heart');
+                    icon.classList.toggle('bi-heart-fill');
+                    icon.classList.toggle('filled');
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
