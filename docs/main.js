@@ -418,30 +418,50 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', function () {
     const saveButtons = document.querySelectorAll('.save-tour');
 
-    const savedTours = JSON.parse(localStorage.getItem('savedTours')) || [];
-    savedTours.forEach(name => {
-        const button = document.querySelector(`.save-tour[data-tour="${name}"]`);
+    let savedTours = JSON.parse(localStorage.getItem('savedTours')) || [];
+    savedTours.forEach(tourObj => {
+        const button = document.querySelector(`.save-tour[data-tour="${tourObj.name}"]`);
         if (button) {
             const icon = button.querySelector('i');
             icon.classList.add('bi-heart-fill');
             icon.classList.add('filled');
         }
     });
+    
+    savedTours.forEach(tourObj => {
+        saveButtons.forEach(button => {
+            const buttonData = JSON.parse(button.dataset.tour);
+            if (buttonData.name === tourObj.name) {
+                const icon = button.querySelector('i');
+                if(buttonData.name === tourObj.name) {
+                    icon.classList.remove('bi-heart');
+                    icon.classList.add('bi-heart-fill', 'filled');
+                }
+            }
+        });
+    });
 
     saveButtons.forEach(button => {
         button.addEventListener('click', function () {
             const icon = this.querySelector('i');
-            const tourName = this.dataset.tour;
+            let tourData;
+            try {
+                tourData = JSON.parse(this.dataset.tour);
+            }            catch (e) {
+                console.error('Error parsing tour data:', e);
+                return;
+            }
+
             let savedTours = JSON.parse(localStorage.getItem('savedTours')) || [];
 
             if (icon.classList.contains('bi-heart-fill')) {
                 icon.classList.remove('bi-heart-fill', 'filled');
                 icon.classList.add('bi-heart');
-                savedTours = savedTours.filter(name => name !== tourName);
+                savedTours = savedTours.filter(t => t.name !== tourData.name);
             } else {
                 icon.classList.remove('bi-heart');
                 icon.classList.add('bi-heart-fill', 'filled');
-                savedTours.push(tourName);
+                savedTours.push(tourData);
             }
             localStorage.setItem('savedTours', JSON.stringify(savedTours));
         });
@@ -449,10 +469,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Display saved tours in the planned tours section
     const plannedTours = document.getElementById('savedTours');
-    savedTours.forEach(tour => {
-        const tourItem = JSON.parse(this.dataset.tour);
-        const plannerTourCard = 
-            `<div class="card mb-3">
+    if (plannedTours) {
+        savedTours.forEach(tourItem => {
+            console.log(tourItem);
+            const plannerTourCard =
+                `<div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
                         <img src="${tourItem.image}" class="img-fluid rounded-start" alt="${tourItem.name}">
@@ -460,12 +481,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="col-md-8">
                         <div class="card-body">
                             <h5 class="card-title">${tourItem.name}</h5>
-                            <p class="card-text">${tourItem.region} • ${tourItem.type}</p>
+                            <p class="card-text">${tourItem.location}</p>
                             <p class="card-text"><small class="text-muted">${tourItem.description}</small></p>
+                            <a href="${tourItem.url}" target="_blank" class="btn btn-sm btn-outline-primary">View Details</a>
                         </div>
                     </div>
                 </div>
             </div>`;
-        plannedTours.insertAdjacentHTML('beforeend', plannerTourCard);
-    })
+            plannedTours.insertAdjacentHTML('beforeend', plannerTourCard);
+        })
+    }
 });
