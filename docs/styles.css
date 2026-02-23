@@ -214,3 +214,7 @@ h1, h2 {
 .save-tour i.filled {
   color: #ff0000;
 }
+
+.navbar-search {
+  max-width: 300px;
+}

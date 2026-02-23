@@ -12,7 +12,7 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <nav class="navbar navbar-expand-xl navbar-dark bg-primary">
             <div class="container">
                 <a class="navbar-brand" href="index.html">Backpackers Travel</a>
 
@@ -29,10 +29,18 @@
                         <li class="nav-item"><a class="nav-link" href="planner.html">Planner</a></li>
                         <li class="nav-item"><a class="nav-link" href="tips.html">Travel Tips</a></li>
                     </ul>
+
+                    <div class="input-group navbar-search">
+                        <input type="text" id="siteSearch" class="form-control" placeholder="Search...">
+                        <button class="btn btn-light btn-sm" id="searchButton" type="button" aria-label="Search">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </nav>
-    </header> <!--Add search bar-->
+    </header>
     <!--Latest Tips preview: show 2–3 recent tips from the Tips page.
     Quick search bar to jump directly to Destinations or Tours pages.-->
     <main class="container my-5">
@@ -40,21 +48,14 @@
             <div class="col-lg-9">
                 <section class="mb-5">
                     <h1 class="mb-3">Welcome to Backpackers Travel</h1>
-                    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut
-                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                        laboris nisi
-                        ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                        esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                        culpa
-                        qui officia deserunt mollit anim id est laborum.</p>
+                    <p class="lead">Backpackers Travel is your go-to resource for planning unforgettable backpacking
+                        adventures around the world. View our featured destinations and get inspired for your next trip!
+                        We have live weather updates for all our featured destinations and more. Look at recommended
+                        tips form other travelers on our Travel Tips page!</p>
                 </section>
                 <section>
                     <h2>Featured Destinations</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet consectetur adipiscing
-                        elit
-                        quisque faucibus.</p>
+                    <p>Look at some of our current featured destinations and get inspired for your next trip!</p>
                     <div id="carouselExampleCaptions" class="carousel slide">
                         <div class="carousel-indicators">
                             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
@@ -71,9 +72,7 @@
                                     class="d-block w-100" alt="Thailand destination">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>Koh Phi Phi</h5>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet
-                                        consectetur
-                                        adipiscing elit quisque faucibus.</p>
+                                    <p>Experience the stunning beaches and crystal clear waters of Koh Phi Phi.</p>
                                 </div>
                             </div>
 
@@ -82,9 +81,7 @@
                                     class="d-block w-100" alt="Vietnam destination">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>Hanoi</h5>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet
-                                        consectetur
-                                        adipiscing elit quisque faucibus.</p>
+                                    <p>Discover the vibrant culture and bustling streets of Hanoi.</p>
                                 </div>
                             </div>
 
@@ -93,9 +90,7 @@
                                     class="d-block w-100" alt="Bali destination">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>Vang Vieng</h5>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet
-                                        consectetur
-                                        adipiscing elit quisque faucibus.</p>
+                                    <p>Experience the beautiful landscapes and unique culture of Vang Vieng.</p>
                                 </div>
                             </div>
                         </div>
@@ -184,17 +179,26 @@
             <div class="col-lg-3">
                 <section class="mb-4">
                     <div class="card p-3 mb-4 shadow-sm">
-                        <img src="https://media.licdn.com/dms/image/v2/D4E03AQHHku36aqKzsQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1676035953109?e=1773273600&v=beta&t=-D-2CSi9rZ6OAh2HZMpDKfZS_yvPUMkDEG9DXGraxkQ" class="card-img-top rounded-circle mb-3" alt="Adam Stedman">
+                        <img src="https://media.licdn.com/dms/image/v2/D4E03AQHHku36aqKzsQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1676035953109?e=1773273600&v=beta&t=-D-2CSi9rZ6OAh2HZMpDKfZS_yvPUMkDEG9DXGraxkQ"
+                            class="card-img-top rounded-circle mb-3" alt="Adam Stedman">
                         <h3 class="card-title text-center mb-3">About Me</h3>
-                        <p class="card-text text-center">I'm Adam Stedman, a passionate backpacker and travel enthusiast. I've been exploring the world for over 10 years and have created this website to share my experiences and help fellow travelers plan their adventures.</p>
+                        <p class="card-text text-center">I'm Adam Stedman, a passionate backpacker and travel
+                            enthusiast. I've been exploring the world for over 10 years and have created this website to
+                            share my experiences and help fellow travelers plan their adventures.</p>
                     </div>
                 </section>
 
                 <!--Placeholder-->
                 <section class="mb-4">
                     <div class="card p-3 shadow-sm">
-                        <h3 class="card-title text-center mb-3">Placeholder</h3>
-                        <p class="card-text text-center">This is a placeholder for future content.</p>
+                        <h3 class="card-title text-center mb-3">My Stats</h3>
+                        <ul class="list-unstyled text-center">
+                            <li><strong>Countries Visited:</strong> 36</li>
+                            <li><strong>Continents Explored:</strong> 4</li>
+                            <li><strong>Destinations:</strong> 82</li>
+                            <li><strong>Trips Taken:</strong> 50+</li>
+                            <li><strong>Favorite Destination:</strong> Vietnam</li>
+                        </ul>
                     </div>
                 </section>
             </div>
