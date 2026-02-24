@@ -368,8 +368,22 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('regionFilter').addEventListener('change', filterDestinations);
 });
 
-// Featured destinations cards
+// Display saved destinations in the planner section
+function displaySavedDestinations() {
+    const savedDestinations = JSON.parse(localStorage.getItem('savedDestinations')) || [];
+    savedDestinations.forEach(destObj => {
+        document.querySelectorAll('.save-destination').forEach(button => {
+            const buttonData = JSON.parse(button.dataset.destination);
+            if (buttonData.name === destObj.name) {
+                const icon = button.querySelector('i');
+                icon.classList.remove('bi-heart');
+                icon.classList.add('bi-heart-fill', 'filled');
+            }
+        });
+    });
+}
 
+// Featured destinations cards
 function displayFeaturedDestinations(destinations) {
     const container = document.getElementById('featuredDestinations');
     container.innerHTML = '';
@@ -383,8 +397,11 @@ function displayFeaturedDestinations(destinations) {
 
         card.innerHTML = `
             <div class="card travel-card h-100 shadow-sm border-0">
-                <div class="image-wrapper">
+                <div class="image-wrapper position-relative">
                 <img src="${dest.image}" class="card-img-top" alt="${dest.name}">
+                <button type="button" class="btn btn-sm save-destination" aria-label="Save Destination" data-destination='{"name": "${dest.name}", "region": "${dest.region}", "type": "${dest.type}", "description": "${dest.description}", "image": "${dest.image}"}'>
+                                <i class="bi bi-heart"></i>
+                    </button>
                 </div>
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">${dest.name}</h5>
@@ -405,6 +422,8 @@ function displayFeaturedDestinations(destinations) {
 
         container.appendChild(card);
     });
+
+    displaySavedDestinations();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -427,13 +446,13 @@ document.addEventListener('DOMContentLoaded', function () {
             icon.classList.add('filled');
         }
     });
-    
+
     savedTours.forEach(tourObj => {
         saveButtons.forEach(button => {
             const buttonData = JSON.parse(button.dataset.tour);
             if (buttonData.name === tourObj.name) {
                 const icon = button.querySelector('i');
-                if(buttonData.name === tourObj.name) {
+                if (buttonData.name === tourObj.name) {
                     icon.classList.remove('bi-heart');
                     icon.classList.add('bi-heart-fill', 'filled');
                 }
@@ -447,7 +466,7 @@ document.addEventListener('DOMContentLoaded', function () {
             let tourData;
             try {
                 tourData = JSON.parse(this.dataset.tour);
-            }            catch (e) {
+            } catch (e) {
                 console.error('Error parsing tour data:', e);
                 return;
             }
@@ -490,5 +509,61 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>`;
             plannedTours.insertAdjacentHTML('beforeend', plannerTourCard);
         })
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    let savedDestinations = JSON.parse(localStorage.getItem('savedDestinations')) || [];
+
+    document.addEventListener('click', function (event) {
+        if (event.target.closest('.save-destination')) {
+            const button = event.target.closest('.save-destination');
+            const icon = button.querySelector('i');
+            let destData;
+            try {
+                destData = JSON.parse(button.dataset.destination);
+            } catch (e) {
+                console.error('Error parsing destination data:', e);
+                return;
+            }
+
+            let savedDestinations = JSON.parse(localStorage.getItem('savedDestinations')) || [];
+
+            if (icon.classList.contains('bi-heart-fill')) {
+                icon.classList.remove('bi-heart-fill', 'filled');
+                icon.classList.add('bi-heart');
+                savedDestinations = savedDestinations.filter(d => d.name !== destData.name);
+            } else {
+                icon.classList.remove('bi-heart');
+                icon.classList.add('bi-heart-fill', 'filled');
+                savedDestinations.push(destData);
+            }
+            localStorage.setItem('savedDestinations', JSON.stringify(savedDestinations));
+            displaySavedDestinations();
+        }
+    });
+
+    displaySavedDestinations();
+
+    const savedDestinationsContainer = document.getElementById('savedDestinations');
+    if (savedDestinationsContainer) {
+        savedDestinations.forEach(destItem => {
+            const savedDestCard = `
+                <div class="card mb-3">
+                    <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="${destItem.image}" class="img-fluid rounded-start" alt="${destItem.name}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">${destItem.name}</h5>
+                            <p class="card-text">${destItem.region} • ${destItem.type}</p>
+                            <p class="card-text"><small class="text-muted">${destItem.description}</small></p>
+                        </div>
+                    </div>
+                    </div>
+                </div>`;
+            savedDestinationsContainer.insertAdjacentHTML('beforeend', savedDestCard);
+        });
     }
 });
