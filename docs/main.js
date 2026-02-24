@@ -368,8 +368,22 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('regionFilter').addEventListener('change', filterDestinations);
 });
 
-// Featured destinations cards
+// Display saved destinations in the planner section
+function displaySavedDestinations() {
+    const savedDestinations = JSON.parse(localStorage.getItem('savedDestinations')) || [];
+    savedDestinations.forEach(destObj => {
+        document.querySelectorAll('.save-destination').forEach(button => {
+            const buttonData = JSON.parse(button.dataset.destination);
+            if (buttonData.name === destObj.name) {
+                const icon = button.querySelector('i');
+                icon.classList.remove('bi-heart');
+                icon.classList.add('bi-heart-fill', 'filled');
+            }
+        });
+    });
+}
 
+// Featured destinations cards
 function displayFeaturedDestinations(destinations) {
     const container = document.getElementById('featuredDestinations');
     container.innerHTML = '';
@@ -408,6 +422,8 @@ function displayFeaturedDestinations(destinations) {
 
         container.appendChild(card);
     });
+
+    displaySavedDestinations();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -499,20 +515,7 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
     let savedDestinations = JSON.parse(localStorage.getItem('savedDestinations')) || [];
 
-    function displaySavedDestinations() {
-        savedDestinations.forEach(destObj => {
-            document.querySelectorAll('.save-destination').forEach(button => {
-                const buttonData = JSON.parse(button.dataset.destination);
-                if (buttonData.name === destObj.name) {
-                    const icon = button.querySelector('i');
-                    icon.classList.remove('bi-heart');
-                    icon.classList.add('bi-heart-fill', 'filled');
-                }
-            });
-        });
-    }
-
-    this.documentElement.addEventListener('click', function (event) {
+    document.addEventListener('click', function (event) {
         if (event.target.closest('.save-destination')) {
             const button = event.target.closest('.save-destination');
             const icon = button.querySelector('i');
