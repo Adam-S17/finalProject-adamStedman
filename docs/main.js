@@ -73,42 +73,62 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    //Planner Page JS - maybe try add drag and drop later
-    const plannerForm = document.getElementById('plannerForm');
-    const plannerContainer = document.getElementById('plannerItems');
-    let plannerItems = JSON.parse(localStorage.getItem('plannerItems')) || [];
+    // Add tips to index page from LocalStorage
+    const indexTipContainer = document.getElementById('latestTips');
+    if (indexTipContainer) {
+        const tips = JSON.parse(localStorage.getItem('backpackerTips')) || [];
+        const recentTips = tips.slice(-3).reverse();
 
-    if (plannerForm && plannerContainer) {
-
-        plannerItems.forEach(item => renderPlannerItem(item));
-
-        plannerForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const name = document.getElementById('tripName').value.trim();
-            const date = document.getElementById('tripDate').value;
-            const location = document.getElementById('tripLocation').value.trim();
-            const notes = document.getElementById('tripNotes').value.trim();
-
-            if (!name || !date || !location) return;
-
-            const newItem = { id: Date.now(), name, type: 'Trip', date, location, notes };
-            plannerItems.push(newItem);
-
-            localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
-            renderPlannerItem(newItem);
-
-            plannerForm.reset();
-        });
+        if (recentTips.length === 0) {
+            indexTipContainer.innerHTML = `<p>No tips yet, be the first to <a href="tips.html">share one!</a></p>`;
+        } else {
+            recentTips.forEach(tip => {
+                indexTipContainer.innerHTML += `
+                <li class="list-group-item">
+                    <strong>${tip.category.charAt(0).toUpperCase() + tip.category.slice(1)}:</strong> ${tip.text}
+                </li>
+                `
+            });
+        }
     }
 
-    // Render a planner item in the DOM
-    function renderPlannerItem(item) {
 
-        const div = document.createElement('div');
-        div.className = 'col-md-4'
+        //Planner Page JS - maybe try add drag and drop later
+        const plannerForm = document.getElementById('plannerForm');
+        const plannerContainer = document.getElementById('plannerItems');
+        let plannerItems = JSON.parse(localStorage.getItem('plannerItems')) || [];
 
-        div.innerHTML = `
+        if (plannerForm && plannerContainer) {
+
+            plannerItems.forEach(item => renderPlannerItem(item));
+
+            plannerForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const name = document.getElementById('tripName').value.trim();
+                const date = document.getElementById('tripDate').value;
+                const location = document.getElementById('tripLocation').value.trim();
+                const notes = document.getElementById('tripNotes').value.trim();
+
+                if (!name || !date || !location) return;
+
+                const newItem = { id: Date.now(), name, type: 'Trip', date, location, notes };
+                plannerItems.push(newItem);
+
+                localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
+                renderPlannerItem(newItem);
+
+                plannerForm.reset();
+            });
+        }
+
+        // Render a planner item in the DOM
+        function renderPlannerItem(item) {
+
+            const div = document.createElement('div');
+            div.className = 'col-md-4'
+
+            div.innerHTML = `
             <div class="card h-100 shadow-sm">
                 <div class="card-body">
                     <span class="badge bg-primary mb-2">${item.type}</span>
@@ -121,21 +141,21 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
 
-        plannerContainer.appendChild(div);
-    }
+            plannerContainer.appendChild(div);
+        }
 
-    // Delete planner item
-    plannerContainer.addEventListener('click', (e) => {
-        if (!e.target.classList.contains('delete-btn')) return;
+        // Delete planner item
+        plannerContainer.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('delete-btn')) return;
 
-        const id = Number(e.target.dataset.id);
-        plannerItems = plannerItems.filter(item => item.id !== id);
-        localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
+            const id = Number(e.target.dataset.id);
+            plannerItems = plannerItems.filter(item => item.id !== id);
+            localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
 
-        e.target.closest('.col-md-4').remove();
+            e.target.closest('.col-md-4').remove();
+        });
+
     });
-
-});
 
 // Map functionality for the destinations page.
 let map;
