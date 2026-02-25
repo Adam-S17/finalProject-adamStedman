@@ -47,6 +47,7 @@ h1, h2 {
 
 #map {
   min-height: 400px;
+  height: 450px;
   width: 100%;
   border-radius: 0.5rem;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
@@ -146,7 +147,7 @@ h1, h2 {
 }
 
 .card-img-top {
-  height: 100%;
+  height: 200px;
   width: 100%;
   object-fit: cover;
   transform: transform 0.5s ease;
@@ -172,10 +173,11 @@ h1, h2 {
   transform: scale(1.05);
 }
 
-.travel-card .btn {
+.travel-card .view-map {
   border-radius: 50px;
   font-weight: 500;
   background-color: #6610f2;
+  border-color: #6610f2;
 }
 
 .card-description {
