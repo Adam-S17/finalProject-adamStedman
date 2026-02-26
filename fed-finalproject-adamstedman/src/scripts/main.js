@@ -93,42 +93,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-        //Planner Page JS - maybe try add drag and drop later
-        const plannerForm = document.getElementById('plannerForm');
-        const plannerContainer = document.getElementById('plannerItems');
-        let plannerItems = JSON.parse(localStorage.getItem('plannerItems')) || [];
+    //Planner Page JS - maybe try add drag and drop later
+    const plannerForm = document.getElementById('plannerForm');
+    const plannerContainer = document.getElementById('plannerItems');
+    let plannerItems = JSON.parse(localStorage.getItem('plannerItems')) || [];
 
-        if (plannerForm && plannerContainer) {
+    if (plannerForm && plannerContainer) {
 
-            plannerItems.forEach(item => renderPlannerItem(item));
+        plannerItems.forEach(item => renderPlannerItem(item));
 
-            plannerForm.addEventListener('submit', (e) => {
-                e.preventDefault();
+        plannerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-                const name = document.getElementById('tripName').value.trim();
-                const date = document.getElementById('tripDate').value;
-                const location = document.getElementById('tripLocation').value.trim();
-                const notes = document.getElementById('tripNotes').value.trim();
+            const name = document.getElementById('tripName').value.trim();
+            const date = document.getElementById('tripDate').value;
+            const location = document.getElementById('tripLocation').value.trim();
+            const notes = document.getElementById('tripNotes').value.trim();
 
-                if (!name || !date || !location) return;
+            if (!name || !date || !location) return;
 
-                const newItem = { id: Date.now(), name, type: 'Trip', date, location, notes };
-                plannerItems.push(newItem);
+            const newItem = { id: Date.now(), name, type: 'Trip', date, location, notes };
+            plannerItems.push(newItem);
 
-                localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
-                renderPlannerItem(newItem);
+            localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
+            renderPlannerItem(newItem);
 
-                plannerForm.reset();
-            });
-        }
+            plannerForm.reset();
+        });
+    }
 
-        // Render a planner item in the DOM
-        function renderPlannerItem(item) {
+    // Render a planner item in the DOM
+    function renderPlannerItem(item) {
 
-            const div = document.createElement('div');
-            div.className = 'col-md-4'
+        const div = document.createElement('div');
+        div.className = 'col-md-4'
 
-            div.innerHTML = `
+        div.innerHTML = `
             <div class="card h-100 shadow-sm">
                 <div class="card-body">
                     <span class="badge bg-primary mb-2">${item.type}</span>
@@ -141,21 +141,21 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
 
-            plannerContainer.appendChild(div);
-        }
+        plannerContainer.appendChild(div);
+    }
 
-        // Delete planner item
-        plannerContainer.addEventListener('click', (e) => {
-            if (!e.target.classList.contains('delete-btn')) return;
+    // Delete planner item
+    plannerContainer.addEventListener('click', (e) => {
+        if (!e.target.classList.contains('delete-btn')) return;
 
-            const id = Number(e.target.dataset.id);
-            plannerItems = plannerItems.filter(item => item.id !== id);
-            localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
+        const id = Number(e.target.dataset.id);
+        plannerItems = plannerItems.filter(item => item.id !== id);
+        localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
 
-            e.target.closest('.col-md-4').remove();
-        });
-
+        e.target.closest('.col-md-4').remove();
     });
+
+});
 
 // Map functionality for the destinations page.
 let map;

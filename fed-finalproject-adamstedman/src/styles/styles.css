@@ -2,11 +2,6 @@ body {
   background-color: #f8f9fa;
 }
 
-.navbar-brand {
-  font-weight: bold;
-  letter-spacing: 0.5px;
-}
-
 h1, h2 {
   font-weight: 600;
 }
@@ -185,7 +180,7 @@ h1, h2 {
   margin-top: 0.5rem;
 }
 
-.save-tour, 
+.save-tour,
 .save-destination {
   position: absolute;
   top: 10px;
@@ -198,15 +193,15 @@ h1, h2 {
   box-shadow: none !important;
 }
 
-.save-tour i, 
+.save-tour i,
 .save-destination i {
   color: #ff0000;
   transition: color 0.2s;
 }
 
 .save-tour:hover,
-.save-tour:focus, 
-.save-destination:hover, 
+.save-tour:focus,
+.save-destination:hover,
 .save-destination:focus {
   background: rgba(255, 255, 255, 1) !important;
   border: none !important;
@@ -214,24 +209,20 @@ h1, h2 {
 }
 
 .save-tour:hover i,
-.save-tour:focus i, 
-.save-destination:hover i, 
+.save-tour:focus i,
+.save-destination:hover i,
 .save-destination:focus i {
   color: #ff0000;
 }
 
-.save-tour i.filled, 
+.save-tour i.filled,
 .save-destination i.filled {
   color: #ff0000;
 }
 
-.navbar-search {
-  max-width: 300px;
-}
-
 #savedDestinations .img-fluid,
 #savedTours .img-fluid {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
 }
