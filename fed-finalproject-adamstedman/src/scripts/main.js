@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    //Planner Page JS - maybe try add drag and drop later
+    //Planner Page JS - Add trips to planner, save to localStorage, and delete from planner
     const plannerForm = document.getElementById('plannerForm');
     const plannerContainer = document.getElementById('plannerItems');
     let plannerItems = JSON.parse(localStorage.getItem('plannerItems')) || [];
@@ -120,6 +120,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             plannerForm.reset();
         });
+        // Delete planner item
+        plannerContainer.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('delete-btn')) return;
+
+            const id = Number(e.target.dataset.id);
+            plannerItems = plannerItems.filter(item => item.id !== id);
+            localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
+
+            e.target.closest('.col-md-4').remove();
+        });
     }
 
     // Render a planner item in the DOM
@@ -144,16 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         plannerContainer.appendChild(div);
     }
 
-    // Delete planner item
-    plannerContainer.addEventListener('click', (e) => {
-        if (!e.target.classList.contains('delete-btn')) return;
 
-        const id = Number(e.target.dataset.id);
-        plannerItems = plannerItems.filter(item => item.id !== id);
-        localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
-
-        e.target.closest('.col-md-4').remove();
-    });
 
 });
 
@@ -204,6 +205,9 @@ async function getWeather(lat, lon) {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    const mapElement = document.getElementById('map');
+    if (!mapElement) return;
+
     //Open map on center of world view
     map = L.map('map').setView([20, 0], 2);
 
@@ -346,6 +350,7 @@ function randomDestinationsWeather(destinations) {
 // Display random destinations and their weather in table
 function displayRandomDestinations(destinations) {
     const tableBody = document.querySelector('#topPlacesTable tbody');
+    if (!tableBody) return;
 
     const rowCount = tableBody.rows.length;
     const row = document.createElement('tr');
@@ -362,8 +367,11 @@ function displayRandomDestinations(destinations) {
 }
 
 randomDestinations.forEach(dest => {
-    randomDestinationsWeather(dest)
-        .then(displayRandomDestinations);
+    const tableBody = document.querySelector('#topPlacesTable tbody');
+    if (tableBody) {
+        randomDestinationsWeather(dest)
+            .then(displayRandomDestinations);
+    }
 });
 
 
@@ -379,14 +387,6 @@ function filterDestinations() {
 
     displayFeaturedDestinations(filtered);
 }
-
-// Add event listeners to filters
-document.addEventListener('DOMContentLoaded', () => {
-    displayFeaturedDestinations(destinations);
-
-    document.getElementById('typeFilter').addEventListener('change', filterDestinations);
-    document.getElementById('regionFilter').addEventListener('change', filterDestinations);
-});
 
 // Display saved destinations in the planner section
 function displaySavedDestinations() {
@@ -406,6 +406,7 @@ function displaySavedDestinations() {
 // Featured destinations cards
 function displayFeaturedDestinations(destinations) {
     const container = document.getElementById('featuredDestinations');
+    if (!container) return;
     container.innerHTML = '';
 
     destinations.forEach(dest => {
@@ -447,10 +448,36 @@ function displayFeaturedDestinations(destinations) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    displayFeaturedDestinations(getRandomDestinations(destinations, 12));
+    const params = new URLSearchParams(window.location.search);
+    const query = params.get('search');
 
-    document.getElementById('typeFilter').addEventListener('change', filterDestinations);
-    document.getElementById('regionFilter').addEventListener('change', filterDestinations);
+    console.log('Search query:', query);
+    console.log('Destinations:', destinations?.length);
+
+    if (query) {
+        const searchResults = destinations.filter(dest =>
+            dest.name.toLowerCase().includes(query.toLowerCase()) ||
+            dest.description.toLowerCase().includes(query.toLowerCase()) ||
+            dest.region.toLowerCase().includes(query.toLowerCase()) ||
+            dest.type.toLowerCase().includes(query.toLowerCase())
+        );
+
+        displayFeaturedDestinations(searchResults);
+
+        setTimeout(() => {
+            const destElement = document.querySelector('#featuredDestinations');
+            if (destElement) {
+                destElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 100);
+    } else {
+        displayFeaturedDestinations(getRandomDestinations(destinations, 12));
+    }
+
+    const typeFilter = document.getElementById('typeFilter');
+    const regionFilter = document.getElementById('regionFilter');
+    if (typeFilter) typeFilter.addEventListener('change', filterDestinations);
+    if (regionFilter) regionFilter.addEventListener('change', filterDestinations);
 });
 
 // Fill heart button red and save to local storage when clicked
@@ -587,3 +614,65 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+// Search bar functionality
+const searchInput = document.getElementById('siteSearch');
+const searchButton = document.getElementById('searchButton');
+
+if (searchButton) {
+    const goToSearch = () => {
+        const query = searchInput.value.trim().toLowerCase();
+        if (!query) return;
+
+        if (window.location.pathname.startsWith(`/destinations`)) {
+            const destElement = document.getElementById('featuredDestinations');
+            if (destElement) {
+                destElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        } else {
+            window.location.href = `/destinations?search=${query}`;
+        }
+    };
+
+    searchButton.addEventListener('click', goToSearch);
+
+    searchInput.addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            goToSearch();
+        }
+    });
+}
+
+
+// if (searchButton) {
+//     searchButton.addEventListener('click', function () {
+//         const query = searchInput.value.trim().toLowerCase();
+//         if (!query) return;
+
+//         const filtered = destinations.filter(dest =>
+//             dest.name.toLowerCase().includes(query) ||
+//             dest.region.toLowerCase().includes(query) ||
+//             dest.type.toLowerCase().includes(query)
+//         );
+
+//         if (window.location.pathname.startsWith(`/destinations`)) {
+//             displayFeaturedDestinations(filtered);
+//             setTimeout(() => {
+//                 const destElement = document.getElementById('featuredDestinations');
+//                 if (destElement) {
+//                     destElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+//                 }
+//             }, 100);
+//         } else {
+//             window.location.href = `/destinations?search=${query}`;
+//         }
+//     });
+
+//     searchInput.addEventListener('keypress', function (event) {
+//         if (event.key === 'Enter') {
+//             event.preventDefault();
+//             searchButton.click();
+//         }
+//     });
+// }
