@@ -1,3 +1,5 @@
+import { set } from "astro:schema";
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // This code makes each tips card clickable. 
@@ -625,10 +627,21 @@ if (searchButton) {
         if (!query) return;
 
         if (window.location.pathname.startsWith(`/destinations`)) {
-            const destElement = document.getElementById('featuredDestinations');
-            if (destElement) {
-                destElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            const searchResults = destinations.filter(dest =>
+                dest.name.toLowerCase().includes(query) ||
+                dest.description.toLowerCase().includes(query) ||
+                dest.region.toLowerCase().includes(query) ||
+                dest.type.toLowerCase().includes(query)
+            );
+
+            displayFeaturedDestinations(searchResults);
+
+            setTimeout(() => {
+                const destElement = document.getElementById('featuredDestinations');
+                if (destElement) {
+                    destElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
         } else {
             window.location.href = `/destinations?search=${query}`;
         }
