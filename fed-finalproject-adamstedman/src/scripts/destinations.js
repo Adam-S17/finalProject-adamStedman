@@ -1,239 +1,19 @@
-document.addEventListener('DOMContentLoaded', () => {
+/**
+ * destinations.js
+ * This file handles all of the Destinations page's JavaScript functionality, including:
+ * Destination dataset
+ * Random destination selector for weather table
+ * Weather fetching for weather table
+ * Destination filtering functionality
+ * Save/Unsave functionality for destination cards
+ * "View on Map" button functionality for destination cards
+ * Search query parameter handling on page load
+ */
 
-    // This code makes each tips card clickable. 
-    // Clicking a card will automatically switch to the corresponding tab pane
-    document.querySelectorAll('.tips-categories .col-md-4').forEach(card => {
-        card.addEventListener('click', () => {
-            const tabId = card.getAttribute('data-target');
-            const tabTriggerEl = document.querySelector(`.nav-tabs button[data-bs-target="${tabId}"]`);
+import { map, getWeather } from "./map.js";
 
-            if (tabTriggerEl) {
-                new bootstrap.Tab(tabTriggerEl).show();
-
-                document.querySelector('.tips-details')
-                    .scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    });
-
-
-    //Default tips to appear on page and Load tips from localStorage when the page loads
-    const tipContainer = document.getElementById('userTips');
-    const tipForm = document.getElementById('tipForm');
-
-    if (tipContainer && tipForm) {
-
-        const defaultTips = [
-            { category: 'budget', text: 'Create a daily budget and stick to it to manage your expenses effectively.' },
-            { category: 'packing', text: 'Pack light and only bring essentials to make your travel easier.' },
-            { category: 'health', text: 'Always carry a basic first-aid kit and stay hydrated.' },
-            { category: 'transport', text: 'Use local transportation options to save money and experience the culture.' }
-        ];
-
-        //check if localStorage is empty, if so load default tips - double check this is working
-        if (!localStorage.getItem('backpackerTips')) {
-            localStorage.setItem('backpackerTips', JSON.stringify(defaultTips));
-        }
-
-        const savedTips = JSON.parse(localStorage.getItem('backpackerTips')) || [];
-        savedTips.forEach(tip => addTipToDOM(tip.category, tip.text));
-
-        // Form submission event - Add tip to DOM and save to localStorage and clear form
-
-        tipForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const category = document.getElementById('tipCategory').value;
-            const text = document.getElementById('tipContent').value.trim();
-
-            if (!category || !text) return;
-
-            addTipToDOM(category, text);
-
-            savedTips.push({ category, text });
-            localStorage.setItem('backpackerTips', JSON.stringify(savedTips));
-
-            tipForm.reset();
-        });
-
-        //add tip to page
-        function addTipToDOM(category, text) {
-            const newTip = document.createElement('div');
-            newTip.className = 'col-md-4';
-
-            newTip.innerHTML = `
-        <div class="card h-100 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title text-capitalize">${category.charAt(0).toUpperCase() + category.slice(1)}</h5>
-                <p class="card-text">${text}</p>
-            </div>
-        </div>
-    `;
-            tipContainer.appendChild(newTip);
-        }
-    }
-
-    // Add tips to index page from LocalStorage
-    const indexTipContainer = document.getElementById('latestTips');
-    if (indexTipContainer) {
-        const tips = JSON.parse(localStorage.getItem('backpackerTips')) || [];
-        const recentTips = tips.slice(-3).reverse();
-
-        if (recentTips.length === 0) {
-            indexTipContainer.innerHTML = `<p>No tips yet, be the first to <a href="tips.html">share one!</a></p>`;
-        } else {
-            recentTips.forEach(tip => {
-                indexTipContainer.innerHTML += `
-                <li class="list-group-item">
-                    <strong>${tip.category.charAt(0).toUpperCase() + tip.category.slice(1)}:</strong> ${tip.text}
-                </li>
-                `
-            });
-        }
-    }
-
-
-    //Planner Page JS - Add trips to planner, save to localStorage, and delete from planner
-    const plannerForm = document.getElementById('plannerForm');
-    const plannerContainer = document.getElementById('plannerItems');
-    let plannerItems = JSON.parse(localStorage.getItem('plannerItems')) || [];
-
-    if (plannerForm && plannerContainer) {
-
-        plannerItems.forEach(item => renderPlannerItem(item));
-
-        plannerForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const name = document.getElementById('tripName').value.trim();
-            const date = document.getElementById('tripDate').value;
-            const location = document.getElementById('tripLocation').value.trim();
-            const notes = document.getElementById('tripNotes').value.trim();
-
-            if (!name || !date || !location) return;
-
-            const newItem = { id: Date.now(), name, type: 'Trip', date, location, notes };
-            plannerItems.push(newItem);
-
-            localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
-            renderPlannerItem(newItem);
-
-            plannerForm.reset();
-        });
-        // Delete planner item
-        plannerContainer.addEventListener('click', (e) => {
-            if (!e.target.classList.contains('delete-btn')) return;
-
-            const id = Number(e.target.dataset.id);
-            plannerItems = plannerItems.filter(item => item.id !== id);
-            localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
-
-            e.target.closest('.col-md-4').remove();
-        });
-    }
-
-    // Render a planner item in the DOM
-    function renderPlannerItem(item) {
-
-        const div = document.createElement('div');
-        div.className = 'col-md-4'
-
-        div.innerHTML = `
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <span class="badge bg-primary mb-2">${item.type}</span>
-                    <h5 class="card-title">${item.name}</h5>
-                    <p class="card-text">${item.date ? `Date: ${item.date}` : ''}</p>
-                    ${item.notes ? `<p class="card-text">Notes: ${item.notes}</p>` : ''}
-
-                    <button class="btn btn-sm btn-danger mt-2 delete-btn" data-id="${item.id}">Delete</button>
-                </div>
-            </div>
-        `;
-
-        plannerContainer.appendChild(div);
-    }
-
-
-
-});
-
-// Map functionality for the destinations page.
-let map;
-
-//async weather and destination name function
-async function getWeather(lat, lon) {
-    const apiKey = "00cad81850be91cc53869e295fb55b5b"; //API key from OpenWeatherMap
-    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
-    const placeUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`;
-
-    const iconElement = document.getElementById('weatherIcon');
-    iconElement.style.display = 'none';
-
-    try {
-        const placeResponse = await fetch(placeUrl);
-        const placeData = await placeResponse.json();
-        const placeName = placeData.address.city || placeData.address.town || placeData.address.village || placeData.address.state || 'Unknown Location';
-        document.getElementById('weatherLocation').textContent = placeName;
-
-        const weatherResponse = await fetch(weatherUrl);
-        const date = await weatherResponse.json();
-
-        if (date.cod != 200) {
-            document.getElementById('weatherDescription').textContent = 'Unable to load weather data.';
-            document.getElementById('weatherTemp').textContent = '';
-            document.getElementById('weatherIcon').src = 'https://via.placeholder.com/50';
-            return;
-        }
-
-        const description = date.weather[0].description;
-        const temp = date.main.temp;
-        const icon = date.weather[0].icon;
-
-        document.getElementById('weatherDescription').textContent = description;
-        document.getElementById('weatherTemp').textContent = `${temp} °C`;
-        iconElement.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
-        iconElement.style.display = 'inline-block';
-    }
-    catch (error) {
-        document.getElementById('weatherDescription').textContent = 'Unable to load weather data.';
-        document.getElementById('weatherTemp').textContent = '';
-        document.getElementById('weatherLocation').textContent = 'Unknown Location';
-        document.getElementById('weatherIcon').src = 'https://via.placeholder.com/50';
-        console.error('Error fetching weather or place data:', error);
-    }
-};
-
-document.addEventListener('DOMContentLoaded', () => {
-    const mapElement = document.getElementById('map');
-    if (!mapElement) return;
-
-    //Open map on center of world view
-    map = L.map('map').setView([20, 0], 2);
-
-    // Load map tiles from OpenStreetMap
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-
-    map.on('click', function (e) {
-        const lat = e.latlng.lat;
-        const lon = e.latlng.lng;
-
-        document.getElementById('weatherDescription').textContent = 'Loading...';
-        document.getElementById('weatherTemp').textContent = '';
-        const iconElement = document.getElementById('weatherIcon');
-        iconElement.style.display = 'none';
-        document.getElementById('weatherLocation').textContent = 'Loading...';
-
-        getWeather(lat, lon);
-    });
-});
-
-
-
-// Random destination generator for the destinations page.
-const destinations = [
+//** @type {Array<Object>} Full list of available destinations with their details */
+export const destinations = [
     { region: "Asia", name: "Bangkok", lat: 15.8700, lon: 100.9925, type: "Food & Drink", description: "A buzzing capital in Thailand known for rooftop bars, street food markets, and golden temples.", image: "https://images.unsplash.com/photo-1583491470869-ca0b9fa90216?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGJhbmdrb2t8ZW58MHx8MHx8fDA%3D" },
     { region: "Europe", name: "Barcelona", lat: 41.3851, lon: 2.1734, type: "Cultural", description: "A vibrant city in Spain known for its unique architecture, beaches, and rich cultural heritage.", image: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmFyY2Vsb25hfGVufDB8fDB8fHww" },
     { region: "South America", name: "Buenos Aires", lat: -34.6037, lon: -58.3816, type: "Urban", description: "A lively capital of Argentina known for tango, street art, and world-class cuisine.", image: "https://plus.unsplash.com/premium_photo-1697729901052-fe8900e24993?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YnVlbm9zJTIwYWlyZXN8ZW58MHx8MHx8fDA%3D" },
@@ -311,23 +91,35 @@ const destinations = [
     { region: "Oceania", name: "Apia", lat: -13.8333, lon: -171.7667, type: "Cultural", description: "The capital of Samoa, known for Polynesian culture, markets, and island traditions.", image: "https://plus.unsplash.com/premium_photo-1726612067616-e38c26812b2c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YXBpYSUyMHNhbW9hfGVufDB8fDB8fHww" },
 ];
 
-// Function to get random destinations from the list
-function getRandomDestinations(array, count) {
+/**
+ * Returns a random number of destinations from the list.
+ * @param {Array} array - The array of destinations to choose from.
+ * @param {number} count - The number of random destinations to return.
+ * @returns {Array} An array of randomly selected destinations.
+ */
+export function getRandomDestinations(array, count) {
     const shuffled = [...array].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
 };
 
-// Function to get times from destinations using API
-function getTimes(getTimezoneOffset) {
+
+/**
+ * Converts a timezone offset in seconds to a local time string.
+ * @param {number} getTimezoneOffset - The timezone offset in seconds.
+ * @returns {string} The local time as a string in "HH:MM" format.
+ */
+export function getTimes(getTimezoneOffset) {
     const nowUTC = new Date().getTime() + (new Date().getTimezoneOffset() * 60000);
     const localTime = new Date(nowUTC + (getTimezoneOffset * 1000));
     return localTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
-const randomDestinations = getRandomDestinations(destinations, 10);
-
-// Function to fetch weather data for random destinations
-function randomDestinationsWeather(destinations) {
+/**
+ * Gets the weather data for a given destination using the OpenWeatherMap API and returns an object as the result.
+ * @param {Object} destinations - The destination object containing latitude and longitude.
+ * @returns {Promise<Object>} An object containing the destination name, temperature, weather description, icon, and local time.
+*/
+async function randomDestinationsWeather(destinations) {
     const apiKey = "00cad81850be91cc53869e295fb55b5b"; //API key from OpenWeatherMap
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${destinations.lat}&lon=${destinations.lon}&units=metric&appid=${apiKey}`;
 
@@ -347,8 +139,12 @@ function randomDestinationsWeather(destinations) {
         });
 };
 
-// Display random destinations and their weather in table
-function displayRandomDestinations(destinations) {
+/**
+ * Gets weather data for randomly selected destinations and displays them in a table on the webpage.
+ * Gets 10 random destionations and puts them as rows into the table
+ */
+const randomDestinations = getRandomDestinations(destinations, 10);
+export function displayRandomDestinations(destinations) {
     const tableBody = document.querySelector('#topPlacesTable tbody');
     if (!tableBody) return;
 
@@ -374,21 +170,9 @@ randomDestinations.forEach(dest => {
     }
 });
 
-
-// Dsiplay destination cards based on user filters
-function filterDestinations() {
-    const selectedRegion = document.getElementById('regionFilter').value;
-    const selectedType = document.getElementById('typeFilter').value;
-
-    const filtered = destinations.filter(dest => {
-        return (selectedRegion === 'All' || dest.region === selectedRegion) &&
-            (selectedType === 'All' || dest.type === selectedType);
-    });
-
-    displayFeaturedDestinations(filtered);
-}
-
-// Display saved destinations in the planner section
+/**
+ * 
+ */
 function displaySavedDestinations() {
     const savedDestinations = JSON.parse(localStorage.getItem('savedDestinations')) || [];
     savedDestinations.forEach(destObj => {
@@ -403,8 +187,10 @@ function displaySavedDestinations() {
     });
 }
 
-// Featured destinations cards
-function displayFeaturedDestinations(destinations) {
+/**
+ * Puts destinations cards into the featured destinations container
+ */
+export function displayFeaturedDestinations(destinations) {
     const container = document.getElementById('featuredDestinations');
     if (!container) return;
     container.innerHTML = '';
@@ -433,11 +219,13 @@ function displayFeaturedDestinations(destinations) {
             </div>
         `;
 
+        //View on map and get weather for the destination when the button is clicked
         card.querySelector('.view-map').addEventListener('click', () => {
             if (map) {
                 map.setView([dest.lat, dest.lon], 8);
                 getWeather(dest.lat, dest.lon);
-                document.getElementById('weatherDescription').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                //Scroll map into view when the button is clicked
+                document.getElementById('weatherDescription').scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         });
 
@@ -447,6 +235,29 @@ function displayFeaturedDestinations(destinations) {
     displaySavedDestinations();
 }
 
+/** 
+ * Filters the destinations list based on region or type input from the user
+ * then displays these cards that match
+*/
+export function filterDestinations() {
+    const selectedRegion = document.getElementById('regionFilter').value;
+    const selectedType = document.getElementById('typeFilter').value;
+
+    const filtered = destinations.filter(dest => {
+        return (selectedRegion === 'All' || dest.region === selectedRegion) &&
+            (selectedType === 'All' || dest.type === selectedType);
+    });
+
+    displayFeaturedDestinations(filtered);
+}
+
+/**
+ * Initialises destinations page:
+ * - Handles search querys from URL
+ * - Sets up region and type filter change handlers
+ * - Shows inital random or searched destinations
+ * - Keeps hearts on cards even through event changes
+ */
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const query = params.get('search');
@@ -474,93 +285,11 @@ document.addEventListener('DOMContentLoaded', () => {
         displayFeaturedDestinations(getRandomDestinations(destinations, 12));
     }
 
+    //Filter change handlers
     const typeFilter = document.getElementById('typeFilter');
     const regionFilter = document.getElementById('regionFilter');
     if (typeFilter) typeFilter.addEventListener('change', filterDestinations);
     if (regionFilter) regionFilter.addEventListener('change', filterDestinations);
-});
-
-// Fill heart button red and save to local storage when clicked
-document.addEventListener('DOMContentLoaded', function () {
-    const saveButtons = document.querySelectorAll('.save-tour');
-
-    let savedTours = JSON.parse(localStorage.getItem('savedTours')) || [];
-    savedTours.forEach(tourObj => {
-        const button = document.querySelector(`.save-tour[data-tour="${tourObj.name}"]`);
-        if (button) {
-            const icon = button.querySelector('i');
-            icon.classList.add('bi-heart-fill');
-            icon.classList.add('filled');
-        }
-    });
-
-    savedTours.forEach(tourObj => {
-        saveButtons.forEach(button => {
-            const buttonData = JSON.parse(button.dataset.tour);
-            if (buttonData.name === tourObj.name) {
-                const icon = button.querySelector('i');
-                if (buttonData.name === tourObj.name) {
-                    icon.classList.remove('bi-heart');
-                    icon.classList.add('bi-heart-fill', 'filled');
-                }
-            }
-        });
-    });
-
-    saveButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const icon = this.querySelector('i');
-            let tourData;
-            try {
-                tourData = JSON.parse(this.dataset.tour);
-            } catch (e) {
-                console.error('Error parsing tour data:', e);
-                return;
-            }
-
-            let savedTours = JSON.parse(localStorage.getItem('savedTours')) || [];
-
-            if (icon.classList.contains('bi-heart-fill')) {
-                icon.classList.remove('bi-heart-fill', 'filled');
-                icon.classList.add('bi-heart');
-                savedTours = savedTours.filter(t => t.name !== tourData.name);
-            } else {
-                icon.classList.remove('bi-heart');
-                icon.classList.add('bi-heart-fill', 'filled');
-                savedTours.push(tourData);
-            }
-            localStorage.setItem('savedTours', JSON.stringify(savedTours));
-        });
-    });
-
-    // Display saved tours in the planned tours section
-    const plannedTours = document.getElementById('savedTours');
-    if (plannedTours) {
-        savedTours.forEach(tourItem => {
-            console.log(tourItem);
-            const plannerTourCard =
-                `<div class="card mb-3">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="${tourItem.image}" class="img-fluid rounded-start" alt="${tourItem.name}">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">${tourItem.name}</h5>
-                            <p class="card-text">${tourItem.location}</p>
-                            <p class="card-text"><small class="text-muted">${tourItem.description}</small></p>
-                            <a href="${tourItem.url}" target="_blank" class="btn btn-sm btn-outline-primary">View Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
-            plannedTours.insertAdjacentHTML('beforeend', plannerTourCard);
-        })
-    }
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    let savedDestinations = JSON.parse(localStorage.getItem('savedDestinations')) || [];
 
     document.addEventListener('click', function (event) {
         if (event.target.closest('.save-destination')) {
@@ -589,101 +318,4 @@ document.addEventListener('DOMContentLoaded', function () {
             displaySavedDestinations();
         }
     });
-
-    displaySavedDestinations();
-
-    const savedDestinationsContainer = document.getElementById('savedDestinations');
-    if (savedDestinationsContainer) {
-        savedDestinations.forEach(destItem => {
-            const savedDestCard = `
-                <div class="card mb-3">
-                    <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="${destItem.image}" class="img-fluid rounded-start" alt="${destItem.name}">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">${destItem.name}</h5>
-                            <p class="card-text">${destItem.region} • ${destItem.type}</p>
-                            <p class="card-text"><small class="text-muted">${destItem.description}</small></p>
-                        </div>
-                    </div>
-                    </div>
-                </div>`;
-            savedDestinationsContainer.insertAdjacentHTML('beforeend', savedDestCard);
-        });
-    }
 });
-
-// Search bar functionality
-const searchInput = document.getElementById('siteSearch');
-const searchButton = document.getElementById('searchButton');
-
-if (searchButton) {
-    const goToSearch = () => {
-        const query = searchInput.value.trim().toLowerCase();
-        if (!query) return;
-
-        if (window.location.pathname.startsWith(`/destinations`)) {
-            const searchResults = destinations.filter(dest =>
-                dest.name.toLowerCase().includes(query) ||
-                dest.description.toLowerCase().includes(query) ||
-                dest.region.toLowerCase().includes(query) ||
-                dest.type.toLowerCase().includes(query)
-            );
-
-            displayFeaturedDestinations(searchResults);
-
-            setTimeout(() => {
-                const destElement = document.getElementById('featuredDestinations');
-                if (destElement) {
-                    destElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            }, 100);
-        } else {
-            window.location.href = `/destinations?search=${query}`;
-        }
-    };
-
-    searchButton.addEventListener('click', goToSearch);
-
-    searchInput.addEventListener('keypress', function (event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            goToSearch();
-        }
-    });
-}
-
-
-// if (searchButton) {
-//     searchButton.addEventListener('click', function () {
-//         const query = searchInput.value.trim().toLowerCase();
-//         if (!query) return;
-
-//         const filtered = destinations.filter(dest =>
-//             dest.name.toLowerCase().includes(query) ||
-//             dest.region.toLowerCase().includes(query) ||
-//             dest.type.toLowerCase().includes(query)
-//         );
-
-//         if (window.location.pathname.startsWith(`/destinations`)) {
-//             displayFeaturedDestinations(filtered);
-//             setTimeout(() => {
-//                 const destElement = document.getElementById('featuredDestinations');
-//                 if (destElement) {
-//                     destElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-//                 }
-//             }, 100);
-//         } else {
-//             window.location.href = `/destinations?search=${query}`;
-//         }
-//     });
-
-//     searchInput.addEventListener('keypress', function (event) {
-//         if (event.key === 'Enter') {
-//             event.preventDefault();
-//             searchButton.click();
-//         }
-//     });
-// }
