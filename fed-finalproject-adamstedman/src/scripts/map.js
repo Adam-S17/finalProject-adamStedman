@@ -1,13 +1,13 @@
 /**
  * map.js
- * Initialises leaflet mao centered on world view
+ * Initialises leaflet map centered on world view
  * Gets weather and geocodes place name on map click
  * Updates weather infor panel with current conditions
  * Allows for getWeather() to be used by destinations cards
  */
 
 /** @type {L.Map|null} leaflet map shared with destinations.js*/
-export let map
+export let map = null;
 
 /**
  * Gets weather and geocodes place name on map click
@@ -30,18 +30,18 @@ export async function getWeather(lat, lon) {
         document.getElementById('weatherLocation').textContent = placeName;
 
         const weatherResponse = await fetch(weatherUrl);
-        const date = await weatherResponse.json();
+        const data = await weatherResponse.json();
 
-        if (date.cod != 200) {
+        if (data.cod != 200) {
             document.getElementById('weatherDescription').textContent = 'Unable to load weather data.';
             document.getElementById('weatherTemp').textContent = '';
             document.getElementById('weatherIcon').src = 'https://via.placeholder.com/50';
             return;
         }
 
-        const description = date.weather[0].description;
-        const temp = date.main.temp;
-        const icon = date.weather[0].icon;
+        const description = data.weather[0].description;
+        const temp = data.main.temp;
+        const icon = data.weather[0].icon;
 
         document.getElementById('weatherDescription').textContent = description;
         document.getElementById('weatherTemp').textContent = `${temp} °C`;

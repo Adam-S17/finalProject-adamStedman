@@ -160,19 +160,11 @@ export function displayRandomDestinations(destinations) {
     tableBody.appendChild(row);
 }
 
-randomDestinations.forEach(dest => {
-    const tableBody = document.querySelector('#topPlacesTable tbody');
-    if (tableBody) {
-        randomDestinationsWeather(dest)
-            .then(displayRandomDestinations);
-    }
-});
-
 /**
  * Gets weather data for 10 random destinations and populates top places table
  * Called by main.js
  */
-export function initTopPlacesTable () {
+export function initTopPlacesTable() {
     const randomDestinations = getRandomDestinations(destinations, 10);
     randomDestinations.forEach(dest => {
         randomDestinationsWeather(dest).then(displayRandomDestinations);
@@ -249,7 +241,7 @@ export function displayFeaturedDestinations(destinations) {
  * Filters the destinations list based on region or type input from the user
  * then displays these cards that match
 */
-export function filterDestinations() {
+function filterDestinations() {
     const selectedRegion = document.getElementById('regionFilter').value;
     const selectedType = document.getElementById('typeFilter').value;
 
@@ -268,7 +260,7 @@ export function filterDestinations() {
  * - Shows inital random or searched destinations
  * - Keeps hearts on cards even through event changes
  */
-export function initDestinationsPage () {
+export function initDestinationsPage() {
     const params = new URLSearchParams(window.location.search);
     const query = params.get('search');
 

@@ -6,10 +6,6 @@
  * -Handles delete button for plans through an event listener
  */
 
-// const plannerForm = document.getElementById('plannerForm');
-// const plannerContainer = document.getElementById('plannerItems');
-// let plannerItems = JSON.parse(localStorage.getItem('plannerItems')) || [];
-
 /**@type {Array<Object>} */
 let plannerItems = [];
 
@@ -47,49 +43,28 @@ function renderPlannerItem(item) {
 }
 
 /**
- * Displays saved destinations from local storage into #savedDestinaations
- */
-function displayFeaturedDestinations(destinations) {
-    const container = document.getElementById('featuredDestinations');
-    if (!container) return;
-    container.innerHTML = '';
-
-    destinations.forEach(dest => {
-        const card = document.createElement('div');
-        card.className = 'col-md-4 mb-4';
-
-        card.dataset.type = dest.type;
-        card.dataset.region = dest.region;
-
-        card.innerHTML = `
-            <div class="card travel-card h-100 shadow-sm border-0">
-                <div class="image-wrapper position-relative">
-                <img src="${dest.image}" class="card-img-top" alt="${dest.name}">
-                <button type="button" class="btn btn-sm save-destination" aria-label="Save Destination" data-destination='{"name": "${dest.name}", "region": "${dest.region}", "type": "${dest.type}", "description": "${dest.description}", "image": "${dest.image}"}'>
-                                <i class="bi bi-heart"></i>
-                    </button>
-                </div>
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">${dest.name}</h5>
-                    <p class="card-text">${dest.region} • ${dest.type}</p>
-                    <p class="card-description">${dest.description}</p>
-                    <button class="btn btn-primary btn-sm mt-auto view-map">View on Map</button>
-                </div>
-            </div>
-        `;
-    })
-}
-
-/**
  * Displays saved tours from local storage into #savedTours
  */
-function displaySavedTours() {
-    const plannedTours = document.getElementById('savedTours');
-    if (plannedTours) {
-        savedTours.forEach(tourItem => {
-            console.log(tourItem);
-            const plannerTourCard =
-                `<div class="card mb-3">
+function renderSavedTours() {
+    const container = document.getElementById('savedTours');
+    if (!container) return;
+
+    const savedTours = JSON.parse(localStorage.getItem('savedTours')) || [];
+    container.innerHTML = '';
+
+    if (savedTours.length === 0) {
+        container.innerHTML = `
+        <p class="text-muted">
+        No saved tours yet. Heart a tour on the Tours page to get started!
+        </p>`;
+        return
+    }
+
+    savedTours.forEach(tourItem => {
+        const card = document.createElement('div')
+
+        card.innerHTML =
+            `<div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
                         <img src="${tourItem.image}" class="img-fluid rounded-start" alt="${tourItem.name}">
@@ -104,17 +79,54 @@ function displaySavedTours() {
                     </div>
                 </div>
             </div>`;
-            plannedTours.insertAdjacentHTML('beforeend', plannerTourCard);
-        })
-    }
+        container.appendChild(card)
+    })
 }
+
+/**
+ * Displays saved destinations from local storage
+ */
+function renderSavedDestinations() {
+    const container = document.getElementById('savedDestinations');
+    if (!container) return;
+
+    const savedDestinations = JSON.parse(localStorage.getItem('savedDestinations')) || [];
+    container.innerHTML = '';
+
+    if (savedDestinations.length === 0) {
+        container.innerHTML = `
+        <p class="text-muted">
+        No saved destinations yet. Heart a destination on the destinations page to get started!
+        </p>`;
+        return
+    }
+
+    savedDestinations.forEach(dest => {
+        const card = document.createElement('div');
+        card.className = 'col-md-4 mb-4';
+
+        card.innerHTML = `
+            <div class="card travel-card h-100 shadow-sm border-0">
+                <div class="image-wrapper position-relative">
+                <img src="${dest.image}" class="card-img-top" alt="${dest.name}">
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">${dest.name}</h5>
+                    <p class="card-text">${dest.region} • ${dest.type}</p>
+                    <p class="card-description">${dest.description}</p>
+                </div>
+            </div>
+        `;
+        container.appendChild(card);
+    })
+};
 
 /**
  * Initialises the planner page.
  * Called by main.js when the /planner route is detected.
  */
 
-export function initPlannerPage () {
+export function initPlannerPage() {
     const plannerForm = document.getElementById('plannerForm');
     plannerContainer = document.getElementById('plannerItems');
 
@@ -140,12 +152,14 @@ export function initPlannerPage () {
             renderPlannerItem(newItem);
 
             plannerForm.reset();
+
         });
         // Delete planner item
         plannerContainer.addEventListener('click', (e) => {
-            if (!e.target.classList.contains('delete-btn')) return;
+            const deleteBtn = e.target.closest('.delete-btn');
+            if (!deleteBtn) return;
 
-            const id = Number(e.target.dataset.id);
+            const id = Number(deleteBtn.dataset.id);
             plannerItems = plannerItems.filter(item => item.id !== id);
             localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
 
@@ -153,6 +167,6 @@ export function initPlannerPage () {
         });
     }
 
-    displayFeaturedDestinations();
-    displaySavedTours();
+    renderSavedDestinations();
+    renderSavedTours();
 }

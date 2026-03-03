@@ -4,7 +4,6 @@
  * - Gets default and saved tips from local storage
  * - Submits new tips from the tip form
  * - Displays the latest 3 tips on the index page
- * - Makes tip
  */
 
 /** Default tips loaded on the first visit if local storage is empty */
@@ -17,10 +16,11 @@ const defaultTips = [
 
 /**
  * Creates a tips card and appends it to the container
+ * @param {HTMLElement} container - The container element to append the tip to
  * @param {string} category - The tip category eg packing
  * @param {string} text - the tip text content
  */
-function addTipToDOM(category, text) {
+function addTipToDOM(container, category, text) {
     const newTip = document.createElement('div');
     newTip.className = 'col-md-4';
 
@@ -32,13 +32,12 @@ function addTipToDOM(category, text) {
             </div>
         </div>
     `;
-    tipContainer.appendChild(newTip);
+    container.appendChild(newTip);
 }
 
 /**
  * Initialises the Travel Tips page.
  */
-
 export function initTipsPage() {
     document.querySelectorAll('.tips-categories .col-md-4').forEach(card => {
         card.addEventListener('click', () => {
@@ -57,15 +56,15 @@ export function initTipsPage() {
     const tipContainer = document.getElementById('userTips');
     const tipForm = document.getElementById('tipForm');
 
-    if (tipContainer && tipForm) return;
+    if (!tipContainer || !tipForm) return;
 
-    //check if localStorage is empty, if so load default tips - double check this is working
+    //check if localStorage is empty, if so load default tips
     if (!localStorage.getItem('backpackerTips')) {
         localStorage.setItem('backpackerTips', JSON.stringify(defaultTips));
     }
 
     const savedTips = JSON.parse(localStorage.getItem('backpackerTips')) || [];
-    savedTips.forEach(tip => addTipToDOM(tip.category, tip.text));
+    savedTips.forEach(tip => addTipToDOM(tipContainer, tip.category, tip.text));
 
     // Form submission event - Add tip to DOM and save to localStorage and clear form
 
@@ -77,7 +76,7 @@ export function initTipsPage() {
 
         if (!category || !text) return;
 
-        addTipToDOM(category, text);
+        addTipToDOM(tipContainer, category, text);
 
         savedTips.push({ category, text });
         localStorage.setItem('backpackerTips', JSON.stringify(savedTips));
@@ -89,14 +88,14 @@ export function initTipsPage() {
 /**
  * Puts the 3 most recent tips on the idec page
  */
-export function initIndexpageTips() {
+export function initHomepageTips() {
     const indexTipContainer = document.getElementById('latestTips');
     if (indexTipContainer) {
         const tips = JSON.parse(localStorage.getItem('backpackerTips')) || [];
         const recentTips = tips.slice(-3).reverse();
 
         if (recentTips.length === 0) {
-            indexTipContainer.innerHTML = `<p>No tips yet, be the first to <a href="tips.html">share one!</a></p>`;
+            indexTipContainer.innerHTML = `<p>No tips yet, be the first to <a href="/tips">share one!</a></p>`;
         } else {
             recentTips.forEach(tip => {
                 indexTipContainer.innerHTML += `
