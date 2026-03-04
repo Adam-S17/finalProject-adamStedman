@@ -47,7 +47,7 @@ import Footer from "../components/Footer.astro";
                     <div class="col-lg-8">
                         <div id="map" class="rounded h-100"></div>
                     </div>
-                    <div class="col-lg-4 d-flex">
+                    <div class="col-lg-4 d-flex flex-column gap-3">
                         <div class="card p-3 weather__panel flex-fill">
                             <h4>Selected destination's weather:</h4>
                             <div class="d-flex align-items-center mt-2">
@@ -78,6 +78,24 @@ import Footer from "../components/Footer.astro";
                                     />
                                 </div>
                             </div>
+                        </div>
+                        <div
+                            class="card p-3 country__panel"
+                            id="countryInfoPanel"
+                        >
+                            <h4>Country Info</h4>
+                            <div class="d-flex align-items-center gap-3 mb-2">
+                                <img
+                                    id="countryFlag"
+                                    src=""
+                                    alt="Country flag"
+                                />
+                                <span id="countryName" class="fw-bold fs-5"></span>
+                            </div>
+                            <p class="mb-1">💰<strong>Currency:</strong> <span id="countryCurrency"></span></p>
+                            <p class="mb-1">🗣️<strong>Language:</strong> <span id="countryLanguage"></span></p>
+                            <p class="mb-1">🏙️<strong>Capital:</strong> <span id="countryCapital"></span></p>
+                            <p class="mb-0">🕐<strong>Timezone:</strong> <span id="countryTimezone"></span></p>
                         </div>
                     </div>
                 </div>

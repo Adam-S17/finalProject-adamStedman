@@ -22,12 +22,13 @@ export function initSearch() {
         if (!query) return;
 
         if (window.location.pathname.startsWith(`/destinations`)) {
-            
+
             const searchResults = destinations.filter(dest =>
                 dest.name.toLowerCase().includes(query) ||
                 dest.description.toLowerCase().includes(query) ||
                 dest.region.toLowerCase().includes(query) ||
-                dest.type.toLowerCase().includes(query)
+                dest.type.toLowerCase().includes(query) ||
+                dest.country.toLowerCase().includes(query)
             );
 
             displayFeaturedDestinations(searchResults);

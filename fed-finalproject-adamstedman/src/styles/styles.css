@@ -96,6 +96,15 @@ h1, h2 {
   color: #0d6efd;
 }
 
+#countryInfoPanel {
+  display: block;
+}
+
+#countryFlag {
+  height: 40px;
+  width: auto;
+}
+
 .top-places {
   margin-bottom: 3rem;
 }
