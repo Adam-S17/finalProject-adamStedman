@@ -106,14 +106,14 @@ function renderSavedDestinations() {
         card.className = 'col-md-4 mb-4';
 
         card.innerHTML = `
-            <div class="card travel-card h-100 shadow-sm border-0">
-                <div class="image-wrapper position-relative">
+            <div class="card destination-card h-100 shadow-sm border-0">
+                <div class="destination-card__image-wrapper position-relative">
                 <img src="${dest.image}" class="card-img-top" alt="${dest.name}">
                 </div>
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">${dest.name}</h5>
                     <p class="card-text">${dest.region} • ${dest.type}</p>
-                    <p class="card-description">${dest.description}</p>
+                    <p class="destination-card__description">${dest.description}</p>
                 </div>
             </div>
         `;

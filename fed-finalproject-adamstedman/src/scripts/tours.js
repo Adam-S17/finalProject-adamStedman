@@ -10,7 +10,7 @@
  * Called by main.js when tours is detected
  */
 export function initToursPage() {
-    const saveButtons = document.querySelectorAll('.save-tour');
+    const saveButtons = document.querySelectorAll('.tour-card__save-btn');
 
     let savedTours = JSON.parse(localStorage.getItem('savedTours')) || [];
     savedTours.forEach(tourObj => {

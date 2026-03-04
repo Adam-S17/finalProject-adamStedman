@@ -39,7 +39,7 @@ function addTipToDOM(container, category, text) {
  * Initialises the Travel Tips page.
  */
 export function initTipsPage() {
-    document.querySelectorAll('.tips-categories .col-md-4').forEach(card => {
+    document.querySelectorAll('.tips__categories .col-md-4').forEach(card => {
         card.addEventListener('click', () => {
             const tabId = card.getAttribute('data-target');
             const tabTriggerEl = document.querySelector(`.nav-tabs button[data-bs-target="${tabId}"]`);

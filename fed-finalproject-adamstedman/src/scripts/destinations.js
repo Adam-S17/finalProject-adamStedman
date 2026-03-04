@@ -178,7 +178,7 @@ export function initTopPlacesTable() {
 function displaySavedDestinations() {
     const savedDestinations = JSON.parse(localStorage.getItem('savedDestinations')) || [];
     savedDestinations.forEach(destObj => {
-        document.querySelectorAll('.save-destination').forEach(button => {
+        document.querySelectorAll('.destination-card__save-btn').forEach(button => {
             const buttonData = JSON.parse(button.dataset.destination);
             if (buttonData.name === destObj.name) {
                 const icon = button.querySelector('i');
@@ -205,17 +205,17 @@ export function displayFeaturedDestinations(destinations) {
         card.dataset.region = dest.region;
 
         card.innerHTML = `
-            <div class="card travel-card h-100 shadow-sm border-0">
-                <div class="image-wrapper position-relative">
+            <div class="card destination-card h-100 shadow-sm border-0">
+                <div class="destination-card__image-wrapper position-relative">
                 <img src="${dest.image}" class="card-img-top" alt="${dest.name}">
-                <button type="button" class="btn btn-sm save-destination" aria-label="Save Destination" data-destination='{"name": "${dest.name}", "region": "${dest.region}", "type": "${dest.type}", "description": "${dest.description}", "image": "${dest.image}"}'>
+                <button type="button" class="btn btn-sm destination-card__save-btn" aria-label="Save Destination" data-destination='{"name": "${dest.name}", "region": "${dest.region}", "type": "${dest.type}", "description": "${dest.description}", "image": "${dest.image}"}'>
                                 <i class="bi bi-heart"></i>
                     </button>
                 </div>
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">${dest.name}</h5>
                     <p class="card-text">${dest.region} • ${dest.type}</p>
-                    <p class="card-description">${dest.description}</p>
+                    <p class="destination-card__description">${dest.description}</p>
                     <button class="btn btn-primary btn-sm mt-auto view-map">View on Map</button>
                 </div>
             </div>
@@ -291,8 +291,8 @@ export function initDestinationsPage() {
     if (regionFilter) regionFilter.addEventListener('change', filterDestinations);
 
     document.addEventListener('click', function (event) {
-        if (event.target.closest('.save-destination')) {
-            const button = event.target.closest('.save-destination');
+        if (event.target.closest('.destination-card__save-btn')) {
+            const button = event.target.closest('.destination-card__save-btn');
             const icon = button.querySelector('i');
             let destData;
             try {
