@@ -229,7 +229,7 @@ export function displayFeaturedDestinations(destinations) {
                 getWeather(dest.lat, dest.lon);
                 getCountryInfo(dest).then(info => displayCountryInfo(info))
                 //Scroll map into view when the button is clicked
-                document.getElementById('weatherDescription').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         });
 

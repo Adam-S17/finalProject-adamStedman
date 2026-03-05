@@ -39,16 +39,16 @@ import Footer from "../components/Footer.astro";
                     travels — all in one place.
                 </p>
             </section>
-            <section class="mb-5">
+            <section class="mb-5" id="mapSection">
                 <h2>Weather Map</h2>
                 <p>Click on a destination to view details.</p>
                 <!-- Map container for Leaflet -->
                 <div class="row g-4">
                     <div class="col-lg-8">
-                        <div id="map" class="rounded h-100"></div>
+                        <div id="map" class="rounded"></div>
                     </div>
-                    <div class="col-lg-4 d-flex flex-column gap-3">
-                        <div class="card p-3 weather__panel flex-fill">
+                    <div class="col-lg-4">
+                        <div class="card p-3 weather__panel">
                             <h4>Selected destination's weather:</h4>
                             <div class="d-flex align-items-center mt-2">
                                 <div>
@@ -80,11 +80,11 @@ import Footer from "../components/Footer.astro";
                             </div>
                         </div>
                         <div
-                            class="card p-3 country__panel"
+                            class="card p-3 country__panel w-100"
                             id="countryInfoPanel"
                         >
                             <h4>Country Info</h4>
-                            <div class="d-flex align-items-center gap-3 mb-2">
+                            <div class="d-flex align-items-center">
                                 <img
                                     id="countryFlag"
                                     src=""
