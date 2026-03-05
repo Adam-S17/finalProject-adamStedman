@@ -69,3 +69,14 @@
         max-width: 300px;
     }
 </style>
+<script>
+    const path = window.location.pathname;
+    document.querySelectorAll(".nav-link").forEach((link) => {
+        const href = link.getAttribute("href");
+        if(!href) return;
+        if (href === path || (href !== "/" && path.startsWith(href))) {
+            link.setAttribute("aria-current", "page");
+            link.classList.add("active");
+        }
+    });
+</script>
