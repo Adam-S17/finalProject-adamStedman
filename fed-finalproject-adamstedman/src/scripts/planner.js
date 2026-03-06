@@ -32,6 +32,7 @@ function renderPlannerItem(item) {
                     <span class="badge bg-primary mb-2">${item.type}</span>
                     <h5 class="card-title">${item.name}</h5>
                     <p class="card-text">${item.date ? `Date: ${item.date}` : ''}</p>
+                    <p class="card-text">${item.location ? `Location: ${item.location}` : ''}</p>
                     ${item.notes ? `<p class="card-text">Notes: ${item.notes}</p>` : ''}
 
                     <button class="btn btn-sm btn-danger mt-2 delete-btn" data-id="${item.id}">Delete</button>
