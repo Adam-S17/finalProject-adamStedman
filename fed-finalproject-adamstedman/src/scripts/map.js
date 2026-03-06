@@ -18,20 +18,24 @@ export let map = null;
 export async function getWeather(lat, lon) {
     const apiKey = "00cad81850be91cc53869e295fb55b5b"; //API key from OpenWeatherMap
     const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
-    const placeUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`;
+    const placeUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`; //reverse geocode URL
 
     const iconElement = document.getElementById('weatherIcon');
-    iconElement.style.display = 'none';
+    iconElement.style.display = 'none'; //hide idcon while new data loads
 
     try {
+        //Fetch place name first so location updates before weather arrives
         const placeResponse = await fetch(placeUrl);
         const placeData = await placeResponse.json();
+
+        //Fall through city > town > village > state until a name is found
         const placeName = placeData.address.city || placeData.address.town || placeData.address.village || placeData.address.state || 'Unknown Location';
         document.getElementById('weatherLocation').textContent = placeName;
 
         const weatherResponse = await fetch(weatherUrl);
         const data = await weatherResponse.json();
 
+        //cod 200 means a succesful response from OpenWeatherMap
         if (data.cod != 200) {
             document.getElementById('weatherDescription').textContent = 'Unable to load weather data.';
             document.getElementById('weatherTemp').textContent = '';
@@ -43,12 +47,14 @@ export async function getWeather(lat, lon) {
         const temp = data.main.temp;
         const icon = data.weather[0].icon;
 
+        //Update weather panel with fetched data
         document.getElementById('weatherDescription').textContent = description;
         document.getElementById('weatherTemp').textContent = `${temp} °C`;
         iconElement.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
         iconElement.style.display = 'inline-block';
     }
     catch (error) {
+        //Fallback values
         document.getElementById('weatherDescription').textContent = 'Unable to load weather data.';
         document.getElementById('weatherTemp').textContent = '';
         document.getElementById('weatherLocation').textContent = 'Unknown Location';
@@ -66,7 +72,7 @@ export function initMap() {
     const mapElement = document.getElementById('map');
     if (!mapElement) return;
 
-    //Open map on center of world view
+    //Open map on center of world view - lat 20, lon 0, zoom level 2
     map = L.map('map').setView([20, 0], 2);
 
     // Load map tiles from OpenStreetMap
@@ -74,10 +80,12 @@ export function initMap() {
         attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
+    //On click - show loading state in the panel then fetch wetaher for clicked coord's
     map.on('click', function (e) {
         const lat = e.latlng.lat;
         const lon = e.latlng.lng;
 
+        //Show loading state in the weather pnale while the data is loading
         document.getElementById('weatherDescription').textContent = 'Loading...';
         document.getElementById('weatherTemp').textContent = '';
         const iconElement = document.getElementById('weatherIcon');

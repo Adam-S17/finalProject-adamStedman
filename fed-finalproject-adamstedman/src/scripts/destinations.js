@@ -6,7 +6,7 @@
  * Weather fetching for weather table
  * Destination filtering functionality
  * Save/Unsave functionality for destination cards
- * "View on Map" button functionality for destination cards
+ * "View on Map" button functionality for destination cards to pan to the map and load weather and country info panel
  * Search query parameter handling on page load
  */
 
@@ -15,6 +15,7 @@ import { getCountryInfo, displayCountryInfo } from "./countryInfo.js";
 
 //** @type {Array<Object>} Full list of available destinations with their details */
 export const destinations = [
+    //Destination data
     { region: "Asia", name: "Bangkok", country: "Thailand", lat: 15.8700, lon: 100.9925, type: "Food & Drink", description: "A buzzing capital in Thailand known for rooftop bars, street food markets, and golden temples.", image: "https://images.unsplash.com/photo-1583491470869-ca0b9fa90216?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGJhbmdrb2t8ZW58MHx8MHx8fDA%3D" },
     { region: "Europe", name: "Barcelona", country: "Spain", lat: 41.3851, lon: 2.1734, type: "Cultural", description: "A vibrant city in Spain known for its unique architecture, beaches, and rich cultural heritage.", image: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmFyY2Vsb25hfGVufDB8fDB8fHww" },
     { region: "South America", name: "Buenos Aires", country: "Argentina", lat: -34.6037, lon: -58.3816, type: "Urban", description: "A lively capital of Argentina known for tango, street art, and world-class cuisine.", image: "https://plus.unsplash.com/premium_photo-1697729901052-fe8900e24993?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YnVlbm9zJTIwYWlyZXN8ZW58MHx8MHx8fDA%3D" },
@@ -99,7 +100,7 @@ export const destinations = [
  * @returns {Array} An array of randomly selected destinations.
  */
 export function getRandomDestinations(array, count) {
-    const shuffled = [...array].sort(() => 0.5 - Math.random());
+    const shuffled = [...array].sort(() => 0.5 - Math.random()); // to avoid mutating original array
     return shuffled.slice(0, count);
 };
 
@@ -110,8 +111,8 @@ export function getRandomDestinations(array, count) {
  * @returns {string} The local time as a string in "HH:MM" format.
  */
 export function getTimes(getTimezoneOffset) {
-    const nowUTC = new Date().getTime() + (new Date().getTimezoneOffset() * 60000);
-    const localTime = new Date(nowUTC + (getTimezoneOffset * 1000));
+    const nowUTC = new Date().getTime() + (new Date().getTimezoneOffset() * 60000); // Current time in UTC in ms
+    const localTime = new Date(nowUTC + (getTimezoneOffset * 1000)); // Apply destinatoin offset
     return localTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
@@ -128,7 +129,7 @@ async function randomDestinationsWeather(destinations) {
         .then(response => response.json())
         .then(data => {
 
-            const localTime = getTimes(data.timezone);
+            const localTime = getTimes(data.timezone); // Convert timezone offset to readable times
 
             return {
                 name: destinations.name,
@@ -142,12 +143,14 @@ async function randomDestinationsWeather(destinations) {
 
 /**
  * Gets weather data for a single selected destination and displays them in the top places table.
+ * Row number is determined by the current row count in the table
+ * @param {object} destinations - The weather result object from randomDestinationsWeather
  */
 export function displayRandomDestinations(destinations) {
     const tableBody = document.querySelector('#topPlacesTable tbody');
     if (!tableBody) return;
 
-    const rowCount = tableBody.rows.length;
+    const rowCount = tableBody.rows.length; // Use current row count to number the row 
     const row = document.createElement('tr');
 
     row.innerHTML = `
@@ -163,6 +166,7 @@ export function displayRandomDestinations(destinations) {
 
 /**
  * Gets weather data for 10 random destinations and populates top places table
+ * Each fetch is async so rows may appear in a different order depending on response time.
  * Called by main.js
  */
 export function initTopPlacesTable() {
@@ -192,16 +196,20 @@ function displaySavedDestinations() {
 
 /**
  * Puts destinations cards into the featured destinations container
+ * Clears existing cards first, then builds and appends a card for each destinations
+ * Puts a View on Map click handler to each card
+ * @param {Array} destinations - The array of destinations objects to display
  */
 export function displayFeaturedDestinations(destinations) {
     const container = document.getElementById('featuredDestinations');
     if (!container) return;
-    container.innerHTML = '';
+    container.innerHTML = ''; //Clears existing card before rendering new ones
 
     destinations.forEach(dest => {
         const card = document.createElement('div');
         card.className = 'col-md-4 mb-4';
 
+        //Store region and type as data attributes for future filtering
         card.dataset.type = dest.type;
         card.dataset.region = dest.region;
 
@@ -236,17 +244,18 @@ export function displayFeaturedDestinations(destinations) {
         container.appendChild(card);
     });
 
-    displaySavedDestinations();
+    displaySavedDestinations(); // Restore heart states after cards are rendered
 }
 
 /** 
- * Filters the destinations list based on region or type input from the user
- * then displays these cards that match
+ * Filters the destinations list based on region or type input from the user then displays these cards that match
+ * Passes the filtered awway to displayFeaturedDestinations to re-render cards
 */
 function filterDestinations() {
     const selectedRegion = document.getElementById('regionFilter').value;
     const selectedType = document.getElementById('typeFilter').value;
 
+    // 'All' means no filter applied for that field
     const filtered = destinations.filter(dest => {
         return (selectedRegion === 'All' || dest.region === selectedRegion) &&
             (selectedType === 'All' || dest.type === selectedType);
@@ -264,9 +273,10 @@ function filterDestinations() {
  */
 export function initDestinationsPage() {
     const params = new URLSearchParams(window.location.search);
-    const query = params.get('search');
+    const query = params.get('search'); // Check if redirected from another page with a search query
 
     if (query) {
+        // Filter destinations by the search quert across multiple fields
         const searchResults = destinations.filter(dest =>
             dest.name.toLowerCase().includes(query.toLowerCase()) ||
             dest.description.toLowerCase().includes(query.toLowerCase()) ||
@@ -277,6 +287,7 @@ export function initDestinationsPage() {
 
         displayFeaturedDestinations(searchResults);
 
+        //Delay to allow cards to render before scrolling into view
         setTimeout(() => {
             const destElement = document.querySelector('#featuredDestinations');
             if (destElement) {
@@ -284,6 +295,7 @@ export function initDestinationsPage() {
             }
         }, 100);
     } else {
+        // No search query - show 12 random destinations by default
         displayFeaturedDestinations(getRandomDestinations(destinations, 12));
     }
 
@@ -293,11 +305,14 @@ export function initDestinationsPage() {
     if (typeFilter) typeFilter.addEventListener('change', filterDestinations);
     if (regionFilter) regionFilter.addEventListener('change', filterDestinations);
 
+    // Event delegation for heart buttons — handles clicks on cards
     document.addEventListener('click', function (event) {
         if (event.target.closest('.destination-card__save-btn')) {
             const button = event.target.closest('.destination-card__save-btn');
             const icon = button.querySelector('i');
             let destData;
+
+            //Parse destination date from the buttons attribute
             try {
                 destData = JSON.parse(button.dataset.destination);
             } catch (e) {
@@ -305,19 +320,22 @@ export function initDestinationsPage() {
                 return;
             }
 
+            //Re-read localStorage to ensure the latest saved state
             let savedDestinations = JSON.parse(localStorage.getItem('savedDestinations')) || [];
 
             if (icon.classList.contains('bi-heart-fill')) {
+                //Already saved - unsave and removed from localStorage
                 icon.classList.remove('bi-heart-fill', 'filled');
                 icon.classList.add('bi-heart');
                 savedDestinations = savedDestinations.filter(d => d.name !== destData.name);
             } else {
+                //Not saved - save and add to localStorage
                 icon.classList.remove('bi-heart');
                 icon.classList.add('bi-heart-fill', 'filled');
                 savedDestinations.push(destData);
             }
             localStorage.setItem('savedDestinations', JSON.stringify(savedDestinations));
-            displaySavedDestinations();
+            displaySavedDestinations(); //re-sync heart states after save/unsave
         }
     });
 };

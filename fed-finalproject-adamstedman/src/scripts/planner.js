@@ -44,20 +44,21 @@ function renderPlannerItem(item) {
 
 /**
  * Displays saved tours from local storage into #savedTours
+ * Shows a prompt message if no tours have been saved yet
  */
 function renderSavedTours() {
     const container = document.getElementById('savedTours');
     if (!container) return;
 
     const savedTours = JSON.parse(localStorage.getItem('savedTours')) || [];
-    container.innerHTML = '';
+    container.innerHTML = ''; //Clear before displaying
 
     if (savedTours.length === 0) {
         container.innerHTML = `
         <p class="text-muted">
         No saved tours yet. Heart a tour on the Tours page to get started!
         </p>`;
-        return
+        return // Stop nothing more to display
     }
 
     savedTours.forEach(tourItem => {
@@ -85,20 +86,21 @@ function renderSavedTours() {
 
 /**
  * Displays saved destinations from local storage
+ * Shows a prompt message if no destinations have been saved yet
  */
 function renderSavedDestinations() {
     const container = document.getElementById('savedDestinations');
     if (!container) return;
 
     const savedDestinations = JSON.parse(localStorage.getItem('savedDestinations')) || [];
-    container.innerHTML = '';
+    container.innerHTML = ''; //Clear before displaying
 
     if (savedDestinations.length === 0) {
         container.innerHTML = `
         <p class="text-muted">
         No saved destinations yet. Heart a destination on the destinations page to get started!
         </p>`;
-        return
+        return // Stop nothing more to display
     }
 
     savedDestinations.forEach(dest => {
@@ -132,9 +134,11 @@ export function initPlannerPage() {
 
     if (plannerForm && plannerContainer) {
 
+        //Load existing planner items from localStorage and render each one
         plannerItems = JSON.parse(localStorage.getItem('plannerItems')) || [];
         plannerItems.forEach(item => renderPlannerItem(item));
 
+        //Form submission - reads inputs, validates, creates a new item and saves to localStorage
         plannerForm.addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -151,22 +155,24 @@ export function initPlannerPage() {
             localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
             renderPlannerItem(newItem);
 
-            plannerForm.reset();
+            plannerForm.reset(); //Clears form fields after succsful submission
 
         });
+
         // Delete planner item
         plannerContainer.addEventListener('click', (e) => {
             const deleteBtn = e.target.closest('.delete-btn');
-            if (!deleteBtn) return;
+            if (!deleteBtn) return; //Stop if click was not on a delete button
 
             const id = Number(deleteBtn.dataset.id);
             plannerItems = plannerItems.filter(item => item.id !== id);
             localStorage.setItem('plannerItems', JSON.stringify(plannerItems));
 
-            e.target.closest('.col-md-4').remove();
+            e.target.closest('.col-md-4').remove(); //Remove the card from the DOM
         });
     }
 
+    //Render saved destinations and tours regardless of planner form
     renderSavedDestinations();
     renderSavedTours();
 }
