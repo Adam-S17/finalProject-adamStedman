@@ -1,3 +1,7 @@
+/*
+BASE STYLES
+Global body and heading defaults
+*/
 body {
   background-color: #f8f9fa;
 }
@@ -6,25 +10,10 @@ h1, h2 {
   font-weight: 600;
 }
 
-.carousel-item img {
-  height: 500px;
-  object-fit: cover;
-}
-
-.carousel-caption {
-  background: rgba(200, 200, 200, 0.5);
-  padding: 1rem;
-  border-radius: 0.5rem;
-}
-
-/* .hover-card {
-  transition: transform 0.3s, ease, box-shadow 0.3s ease;
-}
-
-.destination-card--hover {
-  transition: transform 0.3s, ease, box-shadow 0.3s ease;
-} */
-
+/*
+TIPS CATEGORIES
+Category cards on the travel tips page
+*/
 .tips__categories .card {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -44,6 +33,10 @@ h1, h2 {
   transform: scale(1.05);
 }
 
+/*
+MAP
+Leaflet map container on the destinations page
+*/
 #map {
   min-height: 400px;
   height: 450px;
@@ -52,6 +45,10 @@ h1, h2 {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
 }
 
+/*
+WEATHER PANEL
+Weather info panel alongside the map
+*/
 .weather__panel {
   margin-bottom: 3rem;
 }
@@ -95,6 +92,10 @@ h1, h2 {
   color: #0d6efd;
 }
 
+/*
+COUNTRY INFO PANEL
+Country details panel shown when a destination is selected
+*/
 #countryInfoPanel {
   display: none;
 }
@@ -104,6 +105,10 @@ h1, h2 {
   width: auto;
 }
 
+/*
+TOP PLACES TABLE
+Weather table showing 10 random destinations
+*/
 .top-places {
   margin-bottom: 3rem;
 }
@@ -153,6 +158,10 @@ h1, h2 {
   padding: 4px;
 }
 
+/*
+DESTINATION CARDS
+Cards displayed in the featured destinations grid
+*/
 .card-img-top {
   height: 250px;
   width: 100%;
@@ -192,7 +201,10 @@ h1, h2 {
   margin-top: 0.5rem;
 }
 
-/* Saved destinations & tours in planner */
+/*
+SAVE BUTTONS
+Heart buttons on destination and tour cards
+*/
 .tour-card__save-btn,
 .destination-card__save-btn {
   position: absolute;
@@ -240,8 +252,10 @@ h1, h2 {
   object-fit: cover;
 }
 
-/*Responsive Breakpoints*/
-/*Bootstrap handle the grid; these rules handle custom components*/
+/*
+Responsive Breakpoints
+Bootstrap handle the grid; these rules handle custom components
+*/
 
 /* Small/Mobile: max-width 576px */
 @media (max-width: 576px) {
