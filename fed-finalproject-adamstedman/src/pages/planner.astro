@@ -30,10 +30,6 @@ import Footer from "../components/Footer.astro";
 
     <body>
         <Header />
-        <!--Add/remove destinations and tours dynamically
-    Notes section: save user notes
-    Display a summary itinerary with dates and destinations.
-    Drag-and-drop reorder for planning trips.-->
         <main class="container my-5">
             <section class="mb-5">
                 <h1 class="mb-3">Travel Planner</h1>
@@ -42,10 +38,8 @@ import Footer from "../components/Footer.astro";
                     planner. Select your destinations, dates, and preferences to
                     create a personalized itinerary
                 </p>
-                <!-- Additional planner content can go here -->
             </section>
             <section>
-                <!--Add trip form-->
                 <div
                     class="card shadow-lg border-0 rounded-4 p-4 mb-5 planner__card"
                 >
@@ -56,6 +50,11 @@ import Footer from "../components/Footer.astro";
                         <div class="row g-4">
                             <div class="col-md-6">
                                 <label class="form-label fw-medium"
+                                    >Trip Name</label
+                                >
+                                <label
+                                    for="tripName"
+                                    class="form-label fw-medium"
                                     >Trip Name</label
                                 >
                                 <input
@@ -71,6 +70,11 @@ import Footer from "../components/Footer.astro";
                                 <label class="form-label fw-medium"
                                     >Travel Date</label
                                 >
+                                <label
+                                    for="tripDate"
+                                    class="form-label fw-medium"
+                                    >Travel Date</label
+                                >
                                 <input
                                     type="date"
                                     id="tripDate"
@@ -83,6 +87,10 @@ import Footer from "../components/Footer.astro";
                                 <label class="form-label fw-medium"
                                     >Location</label
                                 >
+                                <label
+                                    for="tripLocation"
+                                    class="form-label fw-medium">Location</label
+                                >
                                 <input
                                     type="text"
                                     id="tripLocation"
@@ -94,6 +102,10 @@ import Footer from "../components/Footer.astro";
 
                             <div class="col-md-6">
                                 <label class="form-label fw-medium">Notes</label
+                                >
+                                <label
+                                    for="tripNotes"
+                                    class="form-label fw-medium">Notes</label
                                 >
                                 <textarea
                                     id="tripNotes"
@@ -114,21 +126,21 @@ import Footer from "../components/Footer.astro";
             </section>
 
             <section class="mb-5">
-                <h3>My Planner</h3>
+                <h2 class="h3">My Planner</h2>
                 <div id="plannerItems" class="row g-4">
                     <!-- Dynamically populated planner items will appear here -->
                 </div>
             </section>
 
             <section class="mb-5">
-                <h3>Saved Destinations</h3>
+                <h2 class="h3">Saved Destinations</h2>
                 <div id="savedDestinations" class="row g-4">
                     <!-- Dynamically populated list of saved destinations -->
                 </div>
             </section>
 
             <section class="mb-5">
-                <h3>Saved Tours</h3>
+                <h2 class="h3">Saved Tours</h2>
                 <div id="savedTours" class="row g-4">
                     <!-- Dynamically populated list of saved tours -->
                 </div>

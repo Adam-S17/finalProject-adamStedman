@@ -55,7 +55,7 @@ import Footer from "../components/Footer.astro";
                     </div>
                     <div class="col-lg-4">
                         <div class="card p-3 weather__panel">
-                            <h4>Selected destination's weather:</h4>
+                            <h3 class="h4">Selected destination's weather:</h3>
                             <div class="d-flex align-items-center mt-2">
                                 <div>
                                     <p
@@ -77,7 +77,7 @@ import Footer from "../components/Footer.astro";
                                     </p>
                                     <img
                                         id="weatherIcon"
-                                        src="https://via.placeholder.com/50"
+                                        src="https://placehold.co/50x50"
                                         style="display:none;"
                                         alt="Weather icon"
                                         class="ms-2"
@@ -89,7 +89,7 @@ import Footer from "../components/Footer.astro";
                             class="card p-3 country__panel w-100"
                             id="countryInfoPanel"
                         >
-                            <h4>Country Info</h4>
+                            <h3 class="h4">Country Info</h3>
                             <div class="d-flex align-items-center">
                                 <img
                                     id="countryFlag"
@@ -150,6 +150,7 @@ import Footer from "../components/Footer.astro";
                 <!--Connect filters using JS-->
                 <div class="row g-3 mb-3">
                     <div class="col-md-4">
+                        <label for="regionFilter" class="visually-hidden">Filter by region</label>
                         <select id="regionFilter" class="form-select">
                             <option value="All">All Regions</option>
                             <option value="Asia">Asia</option>
@@ -161,6 +162,7 @@ import Footer from "../components/Footer.astro";
                         </select>
                     </div>
                     <div class="col-md-4">
+                        <label for="typeFilter" class="visually-hidden">Filter by Type</label>
                         <select id="typeFilter" class="form-select">
                             <option value="All">All Types</option>
                             <option value="Cultural">Cultural</option>

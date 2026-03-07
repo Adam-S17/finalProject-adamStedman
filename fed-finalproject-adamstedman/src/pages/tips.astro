@@ -10,7 +10,7 @@ import Footer from "../components/Footer.astro";
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta
-            name="desciption"
+            name="description"
             content="Read and share backpacker travel tips. Browse tips by category or add your own advice to help fellow travellers."
         />
         <link
@@ -29,9 +29,7 @@ import Footer from "../components/Footer.astro";
     <body>
         <Header />
         <!--Submission form for users to add tips,
-    Display tips in cards or list view, newest first.
-    Filter tips by category (food, safety, budget, etc.).
-    Like or upvote feature to highlight popular tips.-->
+    Filter tips by category (food, safety, budget, etc.).-->
         <main class="container my-5">
             <section class="mb-5">
                 <h1 class="mb-3">Travel Tips</h1>
@@ -50,7 +48,7 @@ import Footer from "../components/Footer.astro";
                                 alt="money saving"
                             />
                             <div class="card-body text-center">
-                                <h5 class="card-title">Budget</h5>
+                                <h3 class="card-title h5">Budget</h3>
                                 <p class="card-text">
                                     How to save money, manage spending, and
                                     travel on a backpackers budget.
@@ -66,7 +64,7 @@ import Footer from "../components/Footer.astro";
                                 alt="suitcases"
                             />
                             <div class="card-body text-center">
-                                <h5 class="card-title">Packing</h5>
+                                <h3 class="card-title h5">Packing</h3>
                                 <p class="card-text">
                                     What to bring, what to leave at home and the
                                     best way to travel lightly.
@@ -82,7 +80,7 @@ import Footer from "../components/Footer.astro";
                                 alt="no motorbikes sign"
                             />
                             <div class="card-body text-center">
-                                <h5 class="card-title">Health &amp; Safety</h5>
+                                <h3 class="card-title h5">Health &amp; Safety</h3>
                                 <p class="card-text">
                                     Stay safe while on your trip with health and
                                     security advice.
@@ -98,7 +96,7 @@ import Footer from "../components/Footer.astro";
                                 alt="bus full of people"
                             />
                             <div class="card-body text-center">
-                                <h5 class="card-title">Transport</h5>
+                                <h3 class="card-title h5">Transport</h3>
                                 <p class="card-text">
                                     Save time trying to figure out buses,
                                     trains, boats and flights. Get around as a
@@ -115,7 +113,7 @@ import Footer from "../components/Footer.astro";
                                 alt="hostel room"
                             />
                             <div class="card-body text-center">
-                                <h5 class="card-title">Accommodation</h5>
+                                <h3 class="card-title h5">Accommodation</h3>
                                 <p class="card-text">
                                     Hotels, hostels and guesthouses, these are
                                     the places to stay.
@@ -266,7 +264,7 @@ import Footer from "../components/Footer.astro";
                 </div>
             </section>
             <section>
-                <h3>Share your Tips</h3>
+                <h2>Share your Tips</h2>
                 <form id="tipForm">
                     <div class="mb-3">
                         <label for="tipCategory" class="form-label"
@@ -300,7 +298,7 @@ import Footer from "../components/Footer.astro";
                 </form>
             </section>
             <section class="mt-5">
-                <h3>Tips from other backpackers</h3>
+                <h2>Tips from other backpackers</h2>
                 <div id="userTips" class="row g-3 mt-3">
                     <!-- New tips will appear here -->
                 </div>

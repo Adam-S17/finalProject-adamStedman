@@ -34,6 +34,25 @@ Category cards on the travel tips page
 }
 
 /*
+TOUR CARD SUBTITLE
+Accessible alternative to Bootstrap text-muted
+*/
+.tour-card__subtitle {
+  color: #5a6370;
+}
+
+/*
+Profile Avatar
+About me image in the homepage sidebar
+*/
+.profile__avatar {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/*
 MAP
 Leaflet map container on the destinations page
 */
@@ -83,7 +102,7 @@ Weather info panel alongside the map
 
 .weather__panel #weatherDescription {
   font-size: 0.95rem;
-  color: #6c757d;
+  color: #5a6370;
 }
 
 .weather__panel #weatherTemp {
@@ -197,7 +216,7 @@ Cards displayed in the featured destinations grid
 
 .destination-card__description {
   font-size: 0.9rem;
-  color: #6c757d;
+  color: #5a6370;
   margin-top: 0.5rem;
 }
 
@@ -277,7 +296,7 @@ Bootstrap handle the grid; these rules handle custom components
     height: 120px;
   }
 
- .destination-card__image-wrapper {
+  .destination-card__image-wrapper {
     height: 180px;
   }
 
