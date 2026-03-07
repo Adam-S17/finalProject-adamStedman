@@ -101,7 +101,7 @@ export function initTipsPage() {
  */
 export function initHomepageTips() {
     const indexTipContainer = document.getElementById('latestTips');
-    if (indexTipContainer) return; //Stops if tips container is not available on the homepage
+    if (!indexTipContainer) return; //Stops if tips container is not available on the homepage
 
     const tips = JSON.parse(localStorage.getItem('backpackerTips')) || [];
     const recentTips = tips.slice(-3).reverse(); //Takes the last 3 tops and reverses to show the newest first
