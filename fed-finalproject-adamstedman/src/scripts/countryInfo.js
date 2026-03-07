@@ -38,7 +38,7 @@ export async function getCountryInfo(destination) {
  */
 export function displayCountryInfo(info) {
     const panel = document.getElementById('countryInfoPanel');
-    if(!panel || !info) return; // Stop if the panel doesnt exist or no data was returned
+    if(!panel || !info) return; // Stops if the panel doesnt exist or no data was returned
 
     document.getElementById('countryFlag').src = info.flag;
     document.getElementById('countryFlag').alt = `${info.name} flag`;
