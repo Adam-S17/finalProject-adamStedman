@@ -4,6 +4,8 @@ Backpackers travel is a full-featured travel planning website for backpackers, i
 
 It provides live weather data, an interactive map, multiple destinationa and tours, a personal travel planner, and a comminty tips page.
 
+GitHub link: https://github.com/Adam-S17/finalProject-adamStedman 
+
 ## Table of Contents
 - [Backpackers Travel](#backpackers-travel)
   - [Table of Contents](#table-of-contents)
